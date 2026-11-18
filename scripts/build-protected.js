@@ -14,6 +14,7 @@ import JavaScriptObfuscator from "javascript-obfuscator";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const productionServer = "https://authorize.lxya.cc";
 const rootFiles = [
+  "LICENSE",
   ".env.example",
   ".dockerignore",
   "Dockerfile",

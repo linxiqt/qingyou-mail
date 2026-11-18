@@ -87,6 +87,7 @@ def build(server, windows, apk, output, node):
     module_spec.loader.exec_module(verifier)
     server_manifest, server_names = verifier.verify_release(server, node)
     inputs = {'server/' + name: server / name for name in server_names}
+    inputs['LICENSE'] = ROOT / 'LICENSE'
     native_files = dict(safe_files(windows))
     if not WINDOWS_ROOT_FILES.issubset(native_files) or 'resources/app.asar' not in native_files:
         raise ValueError('Incomplete Windows application directory')

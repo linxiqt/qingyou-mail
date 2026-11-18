@@ -2,6 +2,7 @@
   "name": "post-office",
   "version": "1.4.3",
   "private": true,
+  "license": "SEE LICENSE IN LICENSE",
   "type": "module",
   "description": "Linux 上的 Node.js 多域名邮局与网页邮箱",
   "engines": {

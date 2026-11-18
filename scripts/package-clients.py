@@ -20,7 +20,10 @@ def build(source, output):
                     'android/test/*.java'):
         exact.update(p.relative_to(source).as_posix() for p in source.glob(pattern))
     files = {}
-    documentation = {}
+    license_file = source.parent / 'LICENSE'
+    if not license_file.is_file() or license_file.is_symlink():
+        raise ValueError('Missing or unsafe project LICENSE')
+    documentation = {'LICENSE': license_file.read_bytes()}
     api_root = source.parent / 'docs' / 'api'
     for name in ('README.md', 'openapi.json', 'openapi-mail.json',
                  'examples/qingyou-tools.mjs', 'examples/requests.http'):

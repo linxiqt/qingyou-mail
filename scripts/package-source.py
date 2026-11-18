@@ -10,7 +10,7 @@ import zipfile
 
 ROOT_FILES = {
     ".env.example", ".dockerignore", "Dockerfile", "compose.yaml", "package.json", "package-lock.json",
-    "README.md", "FEATURE-PARITY.md",
+    "README.md", "FEATURE-PARITY.md", "LICENSE",
 }
 SCRIPT_FILES = {"backup.js", "check.js", "check-mail-listeners.js"}
 DEPLOY_FILES = {

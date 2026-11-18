@@ -14,7 +14,7 @@ FORBIDDEN = {".env", "data", "backups", "certs", ".runtime", "node_modules",
              "test-results", ".git", ".agents", ".codex", ".aws"}
 ROOT_FILES = {
     ".env.example", ".dockerignore", "Dockerfile", "compose.yaml", "package.json", "package-lock.json",
-    "README.md", "FEATURE-PARITY.md",
+    "README.md", "FEATURE-PARITY.md", "LICENSE",
     "DEPLOYMENT.md", "PROTECTED-RELEASE.md", "release-manifest.json",
 }
 DEPLOY_FILES = {"nginx.conf", "postoffice.service", "node-version.txt", "node-sha256.txt",
@@ -78,7 +78,7 @@ def verify_release(source, node):
             raise ValueError("Windows launcher lost its UTF-8 BOM")
         if name.endswith(".pem") and b"PRIVATE KEY" in content:
             raise ValueError("Private keys may not enter the release")
-    required = {"src/edition.js", "src/license.js", "public/license-tools.js", "public/webmail.html",
+    required = {"LICENSE", "src/edition.js", "src/license.js", "public/license-tools.js", "public/webmail.html",
                 "deploy/keydock-offline-public.pem", "compose.yaml", "deploy/postoffice.service", "test/release-smoke.js"}
     if not required.issubset(records):
         raise ValueError("Release is missing required mail, installer or license components")
