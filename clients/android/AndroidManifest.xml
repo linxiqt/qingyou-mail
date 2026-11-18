@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="cloud.qingyou.mail" android:versionCode="5" android:versionName="1.3.4">
+  <uses-sdk android:minSdkVersion="26" android:targetSdkVersion="35" />
+  <uses-permission android:name="android.permission.INTERNET" />
+  <application android:label="青邮" android:icon="@drawable/ic_mail" android:allowBackup="false" android:usesCleartextTraffic="false" android:theme="@style/Theme.Qingyou" android:supportsRtl="true" android:enableOnBackInvokedCallback="true">
+    <activity android:name=".MainActivity" android:exported="true" android:windowSoftInputMode="adjustResize">
+      <intent-filter><action android:name="android.intent.action.MAIN" /><category android:name="android.intent.category.LAUNCHER" /></intent-filter>
+    </activity>
+  </application>
+</manifest>

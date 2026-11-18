@@ -1,0 +1,49 @@
+{
+  "updated": "2026-11-04",
+  "scope": "Android client navigation and independent account/compose pages; Windows sidebar material and independent account page. Server and mail transport unchanged.",
+  "officialSources": [
+    {
+      "title": "华为开发者联盟：设计概览",
+      "url": "https://developer.huawei.com/consumer/cn/design/",
+      "readable": true,
+      "principlesUsed": [
+        "材质的光学表现、空间层次与交互响应相互配合",
+        "在核心交互区域使用通透、有层次且能响应操作的组件"
+      ]
+    },
+    {
+      "title": "华为开发者联盟：鸿蒙应用多设备通用适配指南",
+      "url": "https://developer.huawei.com/consumer/cn/multidevice/adaptive-apps/",
+      "readable": true,
+      "principlesUsed": [
+        "依据屏幕尺寸和使用场景规划信息、导航和关键操作区域",
+        "布局响应窗口和设备形态变化，并在多种尺寸下验证"
+      ]
+    }
+  ],
+  "unreadableSource": {
+    "url": "https://developer.huawei.com/consumer/cn/doc/design-guides/immersivelight-0000002612101053",
+    "result": "Detailed guide timed out; no numerical specifications or implementation claims were taken from it."
+  },
+  "provenance": "This is an original HTML/CSS/JS interpretation of accessible official principles, not Huawei's native implementation. Scrub-to-preview/release-to-commit comes from the user's explicit interaction specification.",
+  "projectParameters": {
+    "lightShape": "92px x 62px radial ellipse, clipped to each navigation surface",
+    "lightTiming": "70ms appearance, 220ms fade; no continuous animation; 0ms in reduced-motion mode",
+    "darkLight": "Center alpha 56/255; darker candidate fill preserves text contrast",
+    "navigationMaterial": "10px background blur plus separate pointer-following light; phone fill alpha 133/255 in light mode, 140/255 in dark mode; no outer glow or shadow",
+    "phoneLayout": "Floating bottom bar with 18px plus safe-area offset; content reserves navigation height plus safe area",
+    "breakpoints": "700px left rail; 1050px mail list/detail split; smaller widths keep a single content pane",
+    "touchTargets": "At least 48px; phone bar items 60px tall, wide rail 68px",
+    "gesture": "One pointerId; pointer capture; candidate attribute separate from actual page/aria-current; fresh coordinate hit test at release; nearest slot owns internal gaps",
+    "cancellation": "Outside release, pointercancel, lost capture, blur, hidden document, resize and Escape clear preview without routing",
+    "compatibilityClick": "900ms suppression after gesture end, reset by a genuine new pointer down; keyboard activation is exempt",
+    "scrolling": "Only navigation consumes pan gestures. Passive independent Touch Events keep material light tracking during native sidebar scrolling.",
+    "performance": "No new dependencies or image downloads; light coordinates are batched with requestAnimationFrame; only the small navigation uses backdrop blur. Existing server pagination and account response guards retained."
+  },
+  "userOverrides": [
+    "Translucency and local radial light are explicitly requested, overriding generic flat-surface/gradient avoidance guidance",
+    "No automatic sweeps, full-border glow or external halo",
+    "All four destinations render real mailbox, inbox, compose or account content"
+  ],
+  "verification": "Isolated Edge browser regression covers trusted touch/mouse/keyboard input, two fingers, final re-hit, reversal, cancellation, compatibility click, fallback Touch Events, normal scrolling, dark/reduced motion and phone/tablet/desktop layouts. Android physical device and native keyboard acceptance still pending."
+}

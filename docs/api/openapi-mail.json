@@ -1,0 +1,1127 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "青邮：AI 邮件工具（8 个操作）",
+    "version": "1.3.0",
+    "description": "适配青邮 v1.3.0 现有服务端。AI 通过 HTTPS + Bearer Key 调用，不需要桌面客户端运行。由全局管理员创建密钥；mail:read/codes:read 是全局读取，management 是全局管理。查询过滤不是权限隔离。所有路径/返回值按现有实现描述；文档不授予任何额外权限。没有 MCP / OAuth 服务，也不支持 Idempotency-Key。 此精简定义省略账号/域名操作，但不会缩小实际 API Key 的权限。"
+  },
+  "servers": [
+    {
+      "url": "https://mail.example.com:8443",
+      "description": "导入后替换成自己的服务器 HTTPS 地址，保留实际端口，不加 /api。"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "邮件"
+    },
+    {
+      "name": "邮件管理"
+    },
+    {
+      "name": "邮箱账号"
+    },
+    {
+      "name": "域名"
+    },
+    {
+      "name": "转发"
+    },
+    {
+      "name": "管理发信"
+    }
+  ],
+  "paths": {
+    "/api/v1/send": {
+      "post": {
+        "operationId": "sendMail",
+        "summary": "发送一封邮件",
+        "tags": [
+          "邮件"
+        ],
+        "description": "需要 mail:send 权限。受 defaultSender、allowedSenders、allowedRecipientDomains、dailyLimit、ipAllowlist 限制。独立 admin 账号没有邮箱时须提供 from 或默认发件邮箱。无幂等键，不自动重试。",
+        "x-required-scope": "mail:send",
+        "x-requires-confirmation": true,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendMail"
+              },
+              "example": {
+                "from": "alice@example.com",
+                "to": [
+                  "bob@example.com"
+                ],
+                "subject": "会议确认",
+                "text": "请确认明天下午三点的会议。"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "创建/接收成功；发信成功仅表示已保存并接受投递。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SentMail"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "400 参数；401 密钥失效；402 授权；403 scope/IP/功能开关；404 不存在；409 冲突/配额；413 过大；422 验证码规则错误；429 频率/日额度；5xx 服务/代理错误。反向代理错误可能不是 JSON。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/messages": {
+      "get": {
+        "operationId": "listMail",
+        "summary": "搜索邮件摘要与投递状态",
+        "tags": [
+          "邮件"
+        ],
+        "description": "需要 mail:read 权限。不返回正文；starred 排除 trash/spam；按 created_at DESC,id DESC 排序。GET 不标记已读。",
+        "x-required-scope": "mail:read",
+        "x-requires-confirmation": false,
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "完整邮箱地址。",
+              "format": "email",
+              "example": "alice@example.com"
+            },
+            "description": "邮箱精确过滤；不填可读取所有邮箱，不是权限边界。"
+          },
+          {
+            "name": "folder",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "inbox",
+                "sent",
+                "drafts",
+                "archive",
+                "spam",
+                "trash",
+                "starred"
+              ],
+              "default": "inbox"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100000,
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 30
+            }
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "maxLength": 100
+            },
+            "description": "搜索主题、发件地址、正文；不是发件人精确匹配。"
+          },
+          {
+            "name": "unread",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "1"
+              ]
+            },
+            "description": "1 表示只看未读；省略表示全部。"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessagePage"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "400 参数；401 密钥失效；402 授权；403 scope/IP/功能开关；404 不存在；409 冲突/配额；413 过大；422 验证码规则错误；429 频率/日额度；5xx 服务/代理错误。反向代理错误可能不是 JSON。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/codes": {
+      "get": {
+        "operationId": "listCodes",
+        "summary": "查询最近邮件验证码",
+        "tags": [
+          "邮件"
+        ],
+        "description": "需要 codes:read 权限。不是完整收件箱。按后台提取规则、时间窗和结果数设置，扫描最近最多 300 封符合条件的收件。无 page/limit 参数；普通来信未匹配验证码时不返回。",
+        "x-required-scope": "codes:read",
+        "x-requires-confirmation": false,
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "完整邮箱地址。",
+              "format": "email",
+              "example": "alice@example.com"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CodeResults"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "400 参数；401 密钥失效；402 授权；403 scope/IP/功能开关；404 不存在；409 冲突/配额；413 过大；422 验证码规则错误；429 频率/日额度；5xx 服务/代理错误。反向代理错误可能不是 JSON。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/manage/messages/{id}": {
+      "get": {
+        "operationId": "getMail",
+        "summary": "读取邮件正文及附件元数据",
+        "tags": [
+          "邮件管理"
+        ],
+        "description": "需要 management 权限。id 从邮件列表取得。不会自动标记已读；返回 body_text/body_html、to/cc/bcc、附件 ID，不包含 raw 或附件 Base64。",
+        "x-required-scope": "management",
+        "x-requires-confirmation": false,
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "description": "服务器返回的记录 ID；不得猜测。",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageDetail"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "400 参数；401 密钥失效；402 授权；403 scope/IP/功能开关；404 不存在；409 冲突/配额；413 过大；422 验证码规则错误；429 频率/日额度；5xx 服务/代理错误。反向代理错误可能不是 JSON。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "operationId": "updateMail",
+        "summary": "标记已读、星标或移动邮件",
+        "tags": [
+          "邮件管理"
+        ],
+        "description": "需要 management 权限。至少传一个字段；folder=trash 为移入垃圾箱。不要将用户未要求阅读的邮件自动标为已读。",
+        "x-required-scope": "management",
+        "x-requires-confirmation": true,
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "description": "服务器返回的记录 ID；不得猜测。",
+              "minimum": 1
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchMessage"
+              },
+              "example": {
+                "read": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ok"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "400 参数；401 密钥失效；402 授权；403 scope/IP/功能开关；404 不存在；409 冲突/配额；413 过大；422 验证码规则错误；429 频率/日额度；5xx 服务/代理错误。反向代理错误可能不是 JSON。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteMailPermanently",
+        "summary": "永久删除垃圾箱中的邮件",
+        "tags": [
+          "邮件管理"
+        ],
+        "description": "需要 management 权限。须先移动到 trash；队列正在投递时返回 409。不可恢复。",
+        "x-required-scope": "management",
+        "x-requires-confirmation": true,
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "description": "服务器返回的记录 ID；不得猜测。",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ok"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "400 参数；401 密钥失效；402 授权；403 scope/IP/功能开关；404 不存在；409 冲突/配额；413 过大；422 验证码规则错误；429 频率/日额度；5xx 服务/代理错误。反向代理错误可能不是 JSON。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/manage/messages/{id}/restore": {
+      "post": {
+        "operationId": "restoreMail",
+        "summary": "恢复垃圾箱邮件",
+        "tags": [
+          "邮件管理"
+        ],
+        "description": "需要 management 权限。恢复 previous_folder，缺失时恢复 inbox；非 trash 返回 400。不需要请求体。",
+        "x-required-scope": "management",
+        "x-requires-confirmation": true,
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "description": "服务器返回的记录 ID；不得猜测。",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ok"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "400 参数；401 密钥失效；402 授权；403 scope/IP/功能开关；404 不存在；409 冲突/配额；413 过大；422 验证码规则错误；429 频率/日额度；5xx 服务/代理错误。反向代理错误可能不是 JSON。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/manage/messages/batch": {
+      "post": {
+        "operationId": "batchUpdateMail",
+        "summary": "批量标记、归档、删除到垃圾箱或恢复",
+        "tags": [
+          "邮件管理"
+        ],
+        "description": "需要 management 权限。最多 100 个 ID，事务提交。trash/archive 跳过 drafts 和已在 trash 的邮件；restore 跳过非 trash。count 是去重 ID 数，不等于实际改变数。",
+        "x-required-scope": "management",
+        "x-requires-confirmation": true,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchMessages"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ok"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "400 参数；401 密钥失效；402 授权；403 scope/IP/功能开关；404 不存在；409 冲突/配额；413 过大；422 验证码规则错误；429 频率/日额度；5xx 服务/代理错误。反向代理错误可能不是 JSON。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "po_...",
+        "description": "青邮后台「邮件推送 API」创建的 API Key，不是 AI 服务商密钥，不是管理员密码。各 operation 的 x-required-scope 表示应用权限，并非 OAuth scope。"
+      }
+    },
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "错误说明。"
+          },
+          "code": {
+            "type": "string",
+            "description": "可选机器码，例如 LICENSE_REQUIRED、DOMAIN_MAILBOX_LIMIT。"
+          }
+        },
+        "required": [
+          "error"
+        ]
+      },
+      "Ok": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean"
+          },
+          "count": {
+            "type": "integer",
+            "description": "部分批量操作返回的数量。",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "ok"
+        ]
+      },
+      "MailAddress": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "type": "string",
+            "description": "完整邮箱地址。",
+            "format": "email",
+            "example": "alice@example.com"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "address",
+          "name"
+        ]
+      },
+      "SendAttachment": {
+        "type": "object",
+        "properties": {
+          "filename": {
+            "type": "string",
+            "maxLength": 200
+          },
+          "content": {
+            "type": "string",
+            "description": "标准 Base64；不要带 data: 前缀，也不要传路径或 URL。",
+            "format": "byte"
+          }
+        },
+        "required": [
+          "filename",
+          "content"
+        ],
+        "additionalProperties": false
+      },
+      "SendMail": {
+        "type": "object",
+        "properties": {
+          "from": {
+            "type": "string",
+            "description": "完整邮箱地址。",
+            "format": "email",
+            "example": "alice@example.com"
+          },
+          "to": {
+            "oneOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": "完整邮箱地址。",
+                  "format": "email",
+                  "example": "alice@example.com"
+                },
+                "maxItems": 100
+              },
+              {
+                "type": "string",
+                "description": "逗号、分号或空白分隔的邮箱地址。"
+              }
+            ]
+          },
+          "cc": {
+            "oneOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": "完整邮箱地址。",
+                  "format": "email",
+                  "example": "alice@example.com"
+                },
+                "maxItems": 100
+              },
+              {
+                "type": "string",
+                "description": "逗号、分号或空白分隔的邮箱地址。"
+              }
+            ]
+          },
+          "bcc": {
+            "oneOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": "完整邮箱地址。",
+                  "format": "email",
+                  "example": "alice@example.com"
+                },
+                "maxItems": 100
+              },
+              {
+                "type": "string",
+                "description": "逗号、分号或空白分隔的邮箱地址。"
+              }
+            ]
+          },
+          "subject": {
+            "type": "string",
+            "description": "主题，不含换行。",
+            "maxLength": 500,
+            "default": ""
+          },
+          "text": {
+            "type": "string",
+            "description": "纯文本正文。"
+          },
+          "html": {
+            "type": "string",
+            "description": "可选 HTML 正文，服务端会清洗。"
+          },
+          "attachments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SendAttachment"
+            },
+            "maxItems": 20
+          },
+          "draftId": {
+            "type": "integer",
+            "description": "可选：发送成功时删除同一发件邮箱下的此草稿。不是幂等键。",
+            "minimum": 1
+          }
+        },
+        "additionalProperties": false,
+        "description": "to/cc/bcc 至少一处非空，总计最多 100 个地址；from 必须是启用的本地邮箱，建议显式填写。"
+      },
+      "SentMail": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "已保存的发件箱邮件 ID，不是入站收件副本 ID。",
+            "minimum": 1
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "MessageSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "服务器返回的记录 ID；不得猜测。",
+            "minimum": 1
+          },
+          "owner_id": {
+            "type": "integer",
+            "description": "服务器返回的记录 ID；不得猜测。",
+            "minimum": 1
+          },
+          "mailbox": {
+            "type": "string",
+            "description": "完整邮箱地址。",
+            "format": "email",
+            "example": "alice@example.com"
+          },
+          "folder": {
+            "type": "string",
+            "enum": [
+              "inbox",
+              "sent",
+              "drafts",
+              "archive",
+              "spam",
+              "trash"
+            ]
+          },
+          "from_email": {
+            "type": "string",
+            "description": "完整邮箱地址。",
+            "format": "email",
+            "example": "alice@example.com"
+          },
+          "from_name": {
+            "type": "string"
+          },
+          "subject": {
+            "type": "string"
+          },
+          "snippet": {
+            "type": "string",
+            "description": "摘要，不是完整正文。"
+          },
+          "to": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MailAddress"
+            }
+          },
+          "cc": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MailAddress"
+            }
+          },
+          "to_json": {
+            "type": "string",
+            "description": "历史兼容字段，优先使用已解码的 to。"
+          },
+          "cc_json": {
+            "type": "string",
+            "description": "历史兼容字段，优先使用 cc。"
+          },
+          "size": {
+            "type": "integer",
+            "description": "MIME 字节数。",
+            "minimum": 0
+          },
+          "is_read": {
+            "type": "integer",
+            "description": "数据库布尔值：0 否，1 是。",
+            "enum": [
+              0,
+              1
+            ]
+          },
+          "starred": {
+            "type": "integer",
+            "description": "数据库布尔值：0 否，1 是。",
+            "enum": [
+              0,
+              1
+            ]
+          },
+          "delivery_status": {
+            "type": "string",
+            "description": "received / draft / queued / delivered / partial / failed；delivered 不保证进入外部收件箱。"
+          },
+          "created_at": {
+            "type": "string",
+            "description": "服务器 ISO 8601 时间字符串。"
+          },
+          "attachment_count": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "id",
+          "owner_id",
+          "mailbox",
+          "folder",
+          "subject",
+          "snippet",
+          "to",
+          "cc",
+          "is_read",
+          "starred",
+          "delivery_status",
+          "created_at",
+          "attachment_count"
+        ]
+      },
+      "MessagePage": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MessageSummary"
+            }
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "page",
+          "limit"
+        ]
+      },
+      "MessageDetail": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "服务器返回的记录 ID；不得猜测。",
+            "minimum": 1
+          },
+          "owner_id": {
+            "type": "integer",
+            "description": "服务器返回的记录 ID；不得猜测。",
+            "minimum": 1
+          },
+          "folder": {
+            "type": "string",
+            "enum": [
+              "inbox",
+              "sent",
+              "drafts",
+              "archive",
+              "spam",
+              "trash"
+            ]
+          },
+          "from_email": {
+            "type": "string",
+            "description": "完整邮箱地址。",
+            "format": "email",
+            "example": "alice@example.com"
+          },
+          "from_name": {
+            "type": "string"
+          },
+          "subject": {
+            "type": "string"
+          },
+          "snippet": {
+            "type": "string",
+            "description": "摘要，不是完整正文。"
+          },
+          "to": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MailAddress"
+            }
+          },
+          "cc": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MailAddress"
+            }
+          },
+          "to_json": {
+            "type": "string",
+            "description": "历史兼容字段，优先使用已解码的 to。"
+          },
+          "cc_json": {
+            "type": "string",
+            "description": "历史兼容字段，优先使用 cc。"
+          },
+          "size": {
+            "type": "integer",
+            "description": "MIME 字节数。",
+            "minimum": 0
+          },
+          "is_read": {
+            "type": "integer",
+            "description": "数据库布尔值：0 否，1 是。",
+            "enum": [
+              0,
+              1
+            ]
+          },
+          "starred": {
+            "type": "integer",
+            "description": "数据库布尔值：0 否，1 是。",
+            "enum": [
+              0,
+              1
+            ]
+          },
+          "delivery_status": {
+            "type": "string",
+            "description": "received / draft / queued / delivered / partial / failed；delivered 不保证进入外部收件箱。"
+          },
+          "created_at": {
+            "type": "string",
+            "description": "服务器 ISO 8601 时间字符串。"
+          },
+          "body_text": {
+            "type": "string"
+          },
+          "body_html": {
+            "type": "string"
+          },
+          "bcc": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MailAddress"
+            }
+          },
+          "bcc_json": {
+            "type": "string"
+          },
+          "message_id": {
+            "type": "string",
+            "description": "RFC Message-ID；与数据库 id 不同。",
+            "nullable": true
+          },
+          "previous_folder": {
+            "type": "string",
+            "nullable": true
+          },
+          "trashed_at": {
+            "type": "string",
+            "description": "服务器 ISO 8601 时间字符串。",
+            "nullable": true
+          },
+          "attachments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Attachment"
+            }
+          },
+          "domain_id": {
+            "type": "integer",
+            "description": "服务器返回的记录 ID；不得猜测。",
+            "minimum": 1
+          },
+          "owner_role": {
+            "type": "string"
+          },
+          "owner_client_manager": {
+            "type": "integer",
+            "description": "数据库布尔值：0 否，1 是。",
+            "enum": [
+              0,
+              1
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "folder",
+          "subject",
+          "body_text",
+          "body_html",
+          "to",
+          "cc",
+          "bcc",
+          "attachments",
+          "is_read"
+        ]
+      },
+      "Attachment": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "服务器返回的记录 ID；不得猜测。",
+            "minimum": 1
+          },
+          "filename": {
+            "type": "string"
+          },
+          "content_type": {
+            "type": "string"
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "id",
+          "filename",
+          "content_type",
+          "size"
+        ]
+      },
+      "PatchMessage": {
+        "type": "object",
+        "properties": {
+          "read": {
+            "type": "boolean"
+          },
+          "starred": {
+            "type": "boolean"
+          },
+          "folder": {
+            "type": "string",
+            "enum": [
+              "inbox",
+              "archive",
+              "spam",
+              "trash"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "minProperties": 1
+      },
+      "BatchMessages": {
+        "type": "object",
+        "properties": {
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "description": "服务器返回的记录 ID；不得猜测。",
+              "minimum": 1
+            },
+            "minItems": 1,
+            "maxItems": 100
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "trash",
+              "archive",
+              "read",
+              "unread",
+              "restore"
+            ]
+          }
+        },
+        "required": [
+          "ids",
+          "action"
+        ],
+        "additionalProperties": false
+      },
+      "CodeResults": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "description": "服务器返回的记录 ID；不得猜测。",
+                  "minimum": 1
+                },
+                "mailbox": {
+                  "type": "string",
+                  "description": "完整邮箱地址。",
+                  "format": "email",
+                  "example": "alice@example.com"
+                },
+                "from_email": {
+                  "type": "string",
+                  "description": "完整邮箱地址。",
+                  "format": "email",
+                  "example": "alice@example.com"
+                },
+                "subject": {
+                  "type": "string"
+                },
+                "created_at": {
+                  "type": "string",
+                  "description": "服务器 ISO 8601 时间字符串。"
+                },
+                "code": {
+                  "type": "string"
+                },
+                "rule_id": {
+                  "type": "integer",
+                  "description": "服务器返回的记录 ID；不得猜测。",
+                  "minimum": 1
+                },
+                "rule_name": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "mailbox",
+                "from_email",
+                "subject",
+                "created_at",
+                "code"
+              ]
+            }
+          },
+          "settings": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": true
+          },
+          "receivedCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "matchedCount": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "items",
+          "settings",
+          "receivedCount",
+          "matchedCount"
+        ]
+      }
+    }
+  }
+}

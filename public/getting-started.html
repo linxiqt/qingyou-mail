@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>解析与使用指引 · 青邮</title>
+    <link rel="icon" href="/favicon.svg" />
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="/workspace.css?v=20261020" />
+  </head>
+  <body>
+    <main class="guide-page">
+      <div class="spread">
+        <a class="brand" href="/" style="text-decoration: none"
+          ><span class="brand-mark">邮</span
+          ><span class="brand-name">青邮</span></a
+        ><a class="btn secondary" href="/">返回邮箱 / 初始化</a>
+      </div>
+      <div class="eyebrow gap-top">FROM LOCAL TO YOUR DOMAIN</div>
+      <h1>先连接域名，再让邮件抵达。</h1>
+      <p class="muted">
+        本机页面与正式邮局是两个阶段。网页创建账号不会自动更改你的域名解析或云服务器。按以下顺序部署，后台会为每个域名生成具体记录供你复制和检测。
+      </p>
+      <div class="notice">
+        当前如果通过 localhost:3000
+        访问，就是本机测试。它只能用于本机访问及本地账号互发；完成 Linux
+        部署、DNS、证书和邮件端口后，才能在公网收发。
+      </div>
+      <section class="card">
+        <h2>1. 准备真实域名与公网 Linux 服务器</h2>
+        <p>
+          你需要拥有一个邮箱域名，例如
+          <code>your-domain.com</code>，和一台固定公网 IP 的 Linux
+          服务器。确认云厂商允许<strong>入站及出站 TCP 25</strong
+          >，安全组和系统防火墙放行 25、587、443；使用证书申请时通常还需 80。
+        </p>
+        <p class="hint">
+          在你自己的电脑初始化，只是在电脑上创建数据库。请把项目部署到实际收信的服务器；A/MX
+          记录不能指向 localhost 或 127.0.0.1。
+        </p>
+      </section>
+      <section class="card">
+        <h2>2. 添加域名，复制自动生成的解析记录</h2>
+        <p>
+          安装时无需填写邮件域名。先在网页创建独立管理账号（例如
+          admin）并登录，再进入<strong>「域名列表 → 添加域名」</strong
+          >。系统会为域名生成独立 RSA 2048 位 DKIM 密钥，添加成功后自动打开「DNS
+          配置」；已有域名也可点击同名按钮。
+        </p>
+        <p>
+          添加首个域名后会自动设置 SMTP 主机名，也可在「域名列表 → SMTP
+          主机名」保存其他值，例如 <code>mail.your-domain.com</code>。在 DNS
+          指引中填写服务器公网 IP。把表中的记录填到 DNSPod、阿里云或 Cloudflare
+          等实际管理该域名的 DNS 控制台。
+        </p>
+        <div class="table-wrap">
+          <table class="guide-example">
+            <thead>
+              <tr>
+                <th>类型</th>
+                <th>主机记录</th>
+                <th>值</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>A</td>
+                <td>mail</td>
+                <td>你的 Linux 服务器公网 IPv4</td>
+              </tr>
+              <tr>
+                <td>MX</td>
+                <td>@</td>
+                <td>mail.your-domain.com，优先级 10</td>
+              </tr>
+              <tr>
+                <td>TXT</td>
+                <td>@</td>
+                <td>后台显示的 SPF；中继模式需采用中继服务商提供的值</td>
+              </tr>
+              <tr>
+                <td>TXT</td>
+                <td>default._domainkey</td>
+                <td>后台自动生成的 DKIM 公钥记录</td>
+              </tr>
+              <tr>
+                <td>TXT</td>
+                <td>_dmarc</td>
+                <td>v=DMARC1; p=none</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="hint">
+          此表是格式说明，your-domain.com
+          是占位示例。使用后台针对你的真实域名生成的值。Cloudflare 的 mail
+          主机应使用「仅 DNS」，关闭橙色代理。若域名已有
+          MX，会影响原有邮箱的收信去向，请先确认要把该域名的收信迁入本邮局。
+        </p>
+      </section>
+      <section class="card">
+        <h2>3. 配置服务器地址、证书与生产环境</h2>
+        <p>
+          在服务器中将 <code>.env.example</code> 复制为
+          <code>.env</code>。设置真实主机名与 HTTPS
+          地址，申请该主机名的证书。Docker 部署还要把证书放入
+          <code>certs/fullchain.pem</code> 与
+          <code>certs/privkey.pem</code>，让容器 UID 1000 可以读取。
+        </p>
+        <pre class="api-code">
+MAIL_HOSTNAME=mail.your-domain.com
+MAIL_PUBLIC_IP=你的服务器公网IP
+PUBLIC_URL=https://mail.your-domain.com
+TRUST_PROXY=1</pre>
+        <p class="hint">
+          TRUST_PROXY=1 对应项目 Nginx 示例中的一层反向代理。Docker Compose
+          已映射公网 25 → 容器 2525、587 → 1587；systemd 部署请按 README 配置
+          SMTP_PORT=25、SUBMISSION_PORT=587 和证书路径。
+        </p>
+        <pre class="api-code">
+npm ci
+# 编辑 .env，放好证书后：
+docker compose up -d --build
+docker compose logs postoffice</pre>
+        <p>
+          使用 <code>deploy/nginx.conf</code> 配置 HTTPS
+          反向代理，替换域名与证书路径，检查配置后重载 Nginx。生产模式会要求
+          HTTPS 与 SMTP TLS 证书。
+        </p>
+      </section>
+      <section class="card">
+        <h2>4. 启用服务器直接收发</h2>
+        <h3>第三方邮件客户端</h3>
+        <p>在网页邮箱打开「账号设置 → 第三方客户端设置」复制参数。收件选 IMAP 993 或 POP3 995，发件选 SMTP 465，三项均使用 SSL/TLS。填写后台的邮件主机名、完整邮箱地址与邮箱密码，开启 SMTP 身份验证。587 发件端口使用 STARTTLS。</p>
+        <p>公网客户端需能访问相应 TCP 端口，且信任覆盖该主机名的 TLS 证书。IMAP 同步文件夹和标记，POP3 下载收件箱。</p>
+        <p>
+          <strong
+            >默认直接查询收件方 MX，向其 25
+            端口投递，不需要第三方中继账号。</strong
+          >
+          本地账号即时互发；外部邮件进入持久队列，按 MX
+          优先级尝试，临时错误自动重试，永久失败会通知发件邮箱。
+        </p>
+        <pre class="api-code">
+OUTBOUND_MODE=direct
+MAIL_HOSTNAME=mail.你的域名
+MAIL_PUBLIC_IP=你的服务器IP</pre>
+        <p>
+          在服务器服务商控制台把公网 IP 的 PTR
+          反向解析设为邮件主机名，确保该主机的 A 记录也指向相同
+          IP。配置后台生成的 SPF、DKIM、DMARC。直投会在对方支持时使用
+          STARTTLS，并严格校验证书；设置 DIRECT_REQUIRE_TLS=true
+          可要求所有目标均使用 TLS。
+        </p>
+        <p>如果服务商不开放出站 25，可选择中继模式：</p>
+        <pre class="api-code">
+OUTBOUND_MODE=relay
+RELAY_HOST=中继服务商提供的SMTP主机
+RELAY_PORT=587
+RELAY_SECURE=false
+RELAY_USER=中继用户名
+RELAY_PASSWORD=中继密码
+MAIL_SPF=中继服务商提供的完整SPF记录</pre>
+        <p class="hint">
+          587 使用 STARTTLS；如果服务商指定 465，设置
+          RELAY_PORT=465、RELAY_SECURE=true。完成服务商要求的发件域名验证；某些中继只允许已验证的发件地址。
+        </p>
+        <p>
+          直接投递时，后台按服务器 IP 生成 SPF，未填写 IP 时使用 A/MX 授权。
+          采用中继时按服务商要求合并 SPF，只保留一条
+          v=spf1。应用会使用域名独立私钥签 DKIM；中继若改写正文或
+          From，也需要按服务商要求配置其 DKIM。
+        </p>
+      </section>
+      <section class="card">
+        <h2>5. 检测解析，创建邮箱，再分别测试收发</h2>
+        <ol class="guide-steps">
+          <li>
+            在「域名列表 → DNS 配置」点击「检测 DNS
+            解析」，核对地址、MX、SPF、DKIM 和
+            DMARC。缓存可能使刚修改的记录暂时不可见。
+          </li>
+          <li>
+            进入「用户列表」或「批量注册」，创建实际收件账号，例如
+            <code>hello@your-domain.com</code
+            >。仅添加域名不会自动接收所有任意用户名的邮件。
+          </li>
+          <li>先让两个本地账号互发，确认网页和本地投递正常。</li>
+          <li>用你的外部邮箱发信到实际创建的账号，确认入站 25 和 MX 正常。</li>
+          <li>
+            从本邮局发信到外部邮箱，查看「发件箱」的投递状态；失败时到「邮局管理」看投递错误。必要时在外部邮箱查看原始邮件中的
+            SPF、DKIM、DMARC 认证结果。
+          </li>
+        </ol>
+        <p class="hint">
+          DNS
+          检测通过只说明解析符合预期，不会替你验证安全组、端口连通性、证书与中继服务商授权。接码功能从收到的邮件提取验证码，无法在没有实际来信时产生验证码。
+        </p>
+      </section>
+      <p class="hint gap-top">
+        参考：<a
+          href="https://developers.cloudflare.com/dns/manage-dns-records/reference/dns-record-types/"
+          target="_blank"
+          rel="noopener noreferrer"
+          >DNS 记录类型</a
+        >
+        ·
+        <a
+          href="https://nodemailer.com/smtp"
+          target="_blank"
+          rel="noopener noreferrer"
+          >SMTP 中继配置</a
+        >
+      </p>
+    </main>
+  </body>
+</html>

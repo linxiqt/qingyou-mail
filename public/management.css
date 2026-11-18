@@ -1,0 +1,474 @@
+/* Management workspace: permission editing, capacity and bounded lists. */
+.management-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin: 0 0 24px;
+}
+.management-metric {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: var(--shadow);
+}
+.management-metric > span {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 600;
+}
+.management-metric > strong {
+  font-size: 32px;
+  line-height: 1.2;
+  letter-spacing: -1px;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+.management-metric > small {
+  font-size: 12px;
+  color: var(--muted);
+}
+.member-identity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.member-identity .mail-avatar {
+  flex: none;
+}
+.subline {
+  display: block;
+}
+.account-filter-fields {
+  display: grid;
+  grid-template-columns: minmax(180px, 2fr) minmax(150px, 1fr) 110px;
+  gap: 14px;
+  flex: 1;
+}
+.account-filter-fields .field {
+  margin: 0;
+}
+.account-management .toolbar {
+  align-items: flex-end;
+}
+.account-management .table-wrap {
+  min-height: 180px;
+}
+.capacity-progress {
+  display: block;
+  width: 150px;
+  max-width: 100%;
+  height: 5px;
+  margin: 8px 0;
+  border: 0;
+  border-radius: 20px;
+  appearance: none;
+  background: var(--line);
+  overflow: hidden;
+}
+.capacity-progress::-webkit-progress-bar {
+  background: var(--line);
+  border-radius: 20px;
+}
+.capacity-progress::-webkit-progress-value {
+  background: var(--accent);
+  border-radius: 20px;
+}
+.capacity-progress::-moz-progress-bar {
+  background: var(--accent);
+  border-radius: 20px;
+}
+.at-capacity .capacity-progress::-webkit-progress-value {
+  background: var(--danger);
+}
+.at-capacity .capacity-progress::-moz-progress-bar {
+  background: var(--danger);
+}
+.domain-capacity {
+  min-width: 150px;
+  font-variant-numeric: tabular-nums;
+}
+.domain-capacity > strong {
+  font-size: 18px;
+}
+.domain-capacity > span,
+.domain-capacity > small {
+  color: var(--muted);
+  font-size: 12px;
+}
+.domain-management .row-actions {
+  max-width: 330px;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.quota-dialog-summary {
+  background: var(--soft);
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: center;
+}
+.quota-dialog-summary > strong {
+  font-size: 18px;
+  overflow-wrap: anywhere;
+}
+.smtp-settings summary {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 24px;
+  cursor: pointer;
+  list-style: none;
+}
+.smtp-settings summary::after {
+  content: "⌄";
+  color: var(--muted);
+}
+.smtp-settings summary span {
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--muted);
+}
+.smtp-settings details[open] > summary {
+  border-bottom: 1px solid var(--line);
+}
+.permission-section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 26px 0 15px;
+}
+.permission-section-heading h3 {
+  font-size: 14px;
+  margin: 0;
+  color: var(--ink);
+}
+.permission-groups {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.permission-group {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 16px;
+  margin: 0;
+  min-width: 0;
+  background: var(--bg);
+}
+.permission-group legend {
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 0 6px;
+}
+.permission-group .check-label {
+  font-size: 13px;
+  margin: 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.permission-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0 30px;
+}
+.management-modal .table-wrap {
+  max-height: 340px;
+  overflow: auto;
+}
+.management-modal .table-wrap thead {
+  position: sticky;
+  top: 0;
+  background: var(--paper);
+  z-index: 1;
+}
+.management-modal td .check-label {
+  margin: 0;
+}
+.management-modal td input[type="checkbox"] {
+  width: 17px;
+  height: 17px;
+}
+.management-modal [hidden] {
+  display: none !important;
+}
+.management-modal .modal-body {
+  overscroll-behavior: contain;
+}
+[data-account-search] {
+  min-width: 0;
+}
+.selection-toolbar [data-selection-count] {
+  font-variant-numeric: tabular-nums;
+}
+.card .btn:disabled {
+  opacity: 0.55;
+}
+.table-empty {
+  padding: 48px 20px !important;
+  line-height: 1.8;
+}
+button[aria-busy="true"] {
+  cursor: progress;
+}
+@media (max-width: 900px) {
+  .management-metrics {
+    gap: 12px;
+  }
+  .management-metric {
+    padding: 18px;
+  }
+  .account-filter-fields {
+    grid-template-columns: 1fr 1fr;
+  }
+  .account-filter-fields > .field:first-child {
+    grid-column: 1/-1;
+  }
+  .domain-management .row-actions {
+    min-width: 180px;
+  }
+  .permission-section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 6px;
+  }
+}
+@media (max-width: 580px) {
+  .management-metrics {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .management-metric {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 6px;
+    padding: 16px;
+  }
+  .management-metric > strong {
+    grid-column: 2;
+    grid-row: 1/3;
+    font-size: 28px;
+    align-self: center;
+  }
+  .management-metric > small {
+    grid-column: 1;
+  }
+  .permission-groups {
+    grid-template-columns: 1fr;
+  }
+  .quota-dialog-summary {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .smtp-settings summary {
+    flex-wrap: wrap;
+    padding: 18px;
+  }
+  .smtp-settings summary span {
+    margin-left: 0;
+  }
+  .account-management .toolbar {
+    gap: 12px;
+  }
+  .account-filter-fields {
+    width: 100%;
+    flex-basis: 100%;
+  }
+  .permission-section-heading h3 {
+    font-size: 15px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .management-metric,
+  .management-modal *,
+  .account-management * {
+    scroll-behavior: auto;
+    transition: none !important;
+  }
+}
+/* Dark mode surfaces use the same palette in tables, editors and controls. */
+:root[data-theme="dark"] .table-wrap :is(th, td) {
+  border-color: var(--line);
+  color: var(--ink);
+}
+:root[data-theme="dark"] .table-wrap th {
+  background: #172234;
+  color: #becbe0;
+}
+:root[data-theme="dark"] .table-wrap tbody tr:hover {
+  background: #24334b;
+}
+:root[data-theme="dark"] .table-foot {
+  background: #172234;
+  color: var(--muted);
+  border-color: var(--line);
+}
+:root[data-theme="dark"]
+  :is(.modal, .toolbar, .form-card, .compose-form)
+  label {
+  color: #becbe0;
+}
+:root[data-theme="dark"] :is(td .subline, .hint, .table-empty) {
+  color: var(--muted);
+}
+:root[data-theme="dark"] .pill {
+  background: #183d36;
+  color: #91dfbf;
+}
+:root[data-theme="dark"] .pill.gray {
+  background: #2b3b53;
+  color: #c2cfe2;
+}
+:root[data-theme="dark"] :is(.pill.red, .btn.danger) {
+  background: #462b3b;
+  color: #ffb8c1;
+}
+:root[data-theme="dark"] .pill.orange {
+  background: #443b29;
+  color: #f2d294;
+}
+:root[data-theme="dark"] :is(.btn.secondary, .tool-button.ghost):hover {
+  background: #314665;
+  color: #e2edff;
+}
+:root[data-theme="dark"] .btn.danger:hover {
+  background: #623243;
+}
+:root[data-theme="dark"] .mail-avatar {
+  background: #29446b;
+  color: #cfe1ff;
+}
+:root[data-theme="dark"] .smtp-settings summary {
+  color: var(--ink);
+}
+:root[data-theme="dark"] .modal-header {
+  background: #172234;
+  color: var(--ink);
+  border-color: var(--line);
+}
+:root[data-theme="dark"] .modal-header h2 {
+  color: var(--ink);
+}
+:root[data-theme="dark"] .server-status {
+  background: #183d36;
+  color: #91dfbf;
+  border-color: #31534b;
+}
+:root[data-theme="dark"] .server-status .dot {
+  background: #64d4a7;
+  box-shadow: 0 0 0 3px #64d4a71a;
+}
+:root[data-theme="dark"] .card-header {
+  border-color: var(--line);
+}
+:root[data-theme="dark"] :is(.detail-box, .secret-box) {
+  background: #172234;
+  color: var(--ink);
+  border-color: var(--line);
+}
+:root[data-theme="dark"] .form-error {
+  background: #462b3b;
+  color: #ffb8c1;
+  border-color: #754659;
+}
+@media (max-width: 640px) {
+  .mail-filter.toolbar {
+    flex-wrap: wrap;
+    align-items: flex-end;
+  }
+  .mail-filter.toolbar > .field {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+  .mail-filter.toolbar > .field input {
+    width: 100%;
+  }
+  .mail-filter details[open] .mail-picker {
+    left: 0;
+    right: auto;
+    width: min(550px, calc(100vw - 64px));
+  }
+}
+.client-workspace-switch {
+  display: flex;
+  margin: 4px 18px 18px;
+  padding: 4px;
+  border: 1px solid var(--line, #e2e8eb);
+  border-radius: 12px;
+  gap: 4px;
+}
+.client-workspace-switch a {
+  flex: 1;
+  padding: 9px 6px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+  text-decoration: none;
+}
+.client-workspace-switch a.selected {
+  background: var(--accent, #285a4e);
+  color: #fff;
+}
+.workspace-section-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px;
+  margin-bottom: 24px;
+  border: 1px solid var(--line, #e2e8eb);
+  border-radius: 14px;
+  background: var(--card, #fff);
+}
+.workspace-section-tabs a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 15px;
+  border-radius: 9px;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+}
+.workspace-section-tabs a:hover {
+  color: var(--ink);
+  background: var(--bg, #f4f6fb);
+}
+.workspace-section-tabs a.selected {
+  background: var(--accent, #285a4e);
+  color: #fff;
+}
+.workspace-section-tabs a:focus-visible {
+  outline: 2px solid var(--accent, #285a4e);
+  outline-offset: 2px;
+}
+.workspace-section-tabs svg {
+  width: 16px;
+  height: 16px;
+}
+:root[data-theme="dark"] .workspace-section-tabs {
+  background: #172234;
+}
+@media (max-width: 640px) {
+  .workspace-section-tabs {
+    gap: 3px;
+    margin-bottom: 18px;
+  }
+  .workspace-section-tabs a {
+    padding: 9px 10px;
+    font-size: 12px;
+  }
+}

@@ -1,0 +1,925 @@
+/* Android reference: frosted blue/lilac, large cards, one surface at a time.
+   Gradients and large radii follow the user's supplied mobile reference.
+   Only the small fixed navigation uses backdrop-filter; rows stay inexpensive. */
+body.android {
+  --ground: #f0f2fb;
+  --surface: #fcfcff;
+  --raised: #f7f8fe;
+  --ink: #20283f;
+  --muted: #5c6680;
+  --accent: #315fc3;
+  --border: #e0e4f0;
+  --control: #b9c3da;
+  --active: #e2eafe;
+  --phone-glass: #ffffffbd;
+  --phone-nav-height: 82px;
+  background: var(--ground);
+  font-size: 15px;
+  -webkit-tap-highlight-color: transparent;
+}
+.android button {
+  transition:
+    background-color 120ms,
+    transform 120ms;
+}
+.android button:active:not(:disabled) {
+  transform: scale(0.98);
+}
+.android .button,
+.android .icon-button {
+  min-height: 48px;
+}
+.android .icon-button {
+  width: 48px;
+  border-radius: 50%;
+}
+.android svg {
+  width: 21px;
+  height: 21px;
+}
+.android input,
+.android textarea {
+  font-size: 16px;
+  border-radius: 14px;
+}
+.android .button {
+  border-radius: 16px;
+  white-space: normal;
+}
+.android small {
+  font-size: 13px;
+}
+.android .phone-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+  background:
+    radial-gradient(ellipse at 95% 22%, #e6e6fa 0, transparent 52%), /* taste-skill-ignore: user-specified frosted reference background */
+    radial-gradient(ellipse at 4% 0, #e6effe 0, transparent 55%), var(--ground); /* taste-skill-ignore: user-specified frosted reference background */
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+  overflow: hidden;
+}
+.android .phone-overview {
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+  padding: 24px 22px
+    calc(var(--phone-nav-height) + env(safe-area-inset-bottom, 0px) + 12px);
+  overscroll-behavior-y: contain;
+}
+.phone-home-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  gap: 10px;
+}
+.phone-home-heading h1 {
+  font-size: 36px;
+  font-weight: 700;
+  margin-top: 3px;
+  letter-spacing: -0.8px;
+}
+.phone-brand {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 600;
+}
+.phone-home-heading .icon-button {
+  background: var(--phone-glass);
+}
+.phone-avatar {
+  min-width: 48px;
+  min-height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+}
+.android .phone-avatar .avatar {
+  width: 44px;
+  height: 44px;
+  background: #dbe4f6;
+  color: #3c5077;
+  border: 2px solid #ffffffaa;
+  font-size: 14px;
+}
+.mailbox-tiles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 13px;
+}
+.android .mailbox-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  min-height: 142px;
+  padding: 17px 18px 16px;
+  border-radius: 27px;
+  border: 1px solid #ffffffb0;
+  box-shadow:
+    0 5px 16px #465c9610,
+    inset 0 1px 0 #ffffff90;
+  text-align: left;
+  color: var(--ink);
+  background: var(--phone-glass);
+}
+.mailbox-tile .tile-icon {
+  display: grid;
+  place-items: center;
+  width: 33px;
+  height: 33px;
+  border-radius: 50%;
+  background: #dce7fb;
+  color: #38629c;
+  margin-bottom: 14px;
+}
+.mailbox-tile .tile-name {
+  font-size: 14px;
+}
+.mailbox-tile strong {
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1.1;
+  margin-top: 7px;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.mailbox-tile > svg {
+  position: absolute;
+  right: 16px;
+  top: 23px;
+  width: 16px;
+  opacity: 0.7;
+}
+.android .mailbox-tile.tile-blue {
+  background: linear-gradient(140deg, #4f72bd 0%, #3c63ba 100%); /* taste-skill-ignore: reference's primary blue mailbox card; white text contrast >= 4.5 */
+  color: #fff;
+  border-color: #8fa9e3;
+}
+.tile-blue .tile-icon {
+  background: #ffffff30;
+  color: #fff;
+}
+.android .mailbox-tile.tile-peach {
+  background: linear-gradient(135deg, #fff6ec, #f8eeea); /* taste-skill-ignore: peach shortcut from supplied mobile reference */
+}
+.tile-peach .tile-icon {
+  background: #f7d8b5;
+  color: #8b4e1e;
+}
+.android .mailbox-tile.tile-lilac {
+  background: linear-gradient(135deg, #f2efff, #e8e8fc); /* taste-skill-ignore: lilac shortcut from supplied mobile reference */
+}
+.tile-lilac .tile-icon {
+  background: #d8d8f9;
+  color: #57539c;
+}
+.phone-section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 22px 0 10px;
+}
+.phone-section-title h2 {
+  font-size: 16px;
+  font-weight: 600;
+}
+.phone-account-label {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  min-height: 48px;
+  text-align: left;
+  align-content: center;
+}
+.phone-account-label span {
+  font-size: 16px;
+  font-weight: 600;
+}
+.phone-account-label small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.phone-quiet {
+  font-size: 12px;
+  color: var(--muted);
+}
+.phone-folder-group {
+  padding: 4px 15px;
+  border: 1px solid #ffffffaa;
+  border-radius: 25px;
+  background: var(--phone-glass);
+}
+.phone-folder-group button {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 13px;
+  min-height: 54px;
+  text-align: left;
+  padding: 7px 0;
+}
+.phone-folder-group button + button {
+  border-top: 1px solid var(--border);
+}
+.phone-folder-group svg {
+  color: #496ca7;
+}
+.phone-folder-group button > svg:last-child {
+  width: 15px;
+  color: var(--muted);
+}
+.phone-folder-group .folder-total {
+  margin-left: auto;
+  font-size: 14px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.phone-shortcuts {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.phone-shortcuts button {
+  background: var(--phone-glass);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 9px 12px;
+  border-radius: 20px;
+  min-height: 48px;
+  font-size: 13px;
+  flex: 1;
+  white-space: nowrap;
+}
+.phone-shortcuts svg {
+  width: 18px;
+  color: var(--accent);
+}
+.phone-shortcuts button:first-child svg {
+  color: #966414;
+}
+.phone-sync {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 16px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.phone-sync .icon-button {
+  width: 48px;
+}
+.phone-storage {
+  text-align: center;
+  font-size: 11px;
+  color: var(--muted);
+}
+.phone-nav {
+  position: fixed;
+  left: max(16px, env(safe-area-inset-left, 0px));
+  right: max(16px, env(safe-area-inset-right, 0px));
+  bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  z-index: 12;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  max-width: 650px;
+  margin: 0 auto;
+  padding: 6px;
+  gap: 4px;
+  background: #fbfcfff2;
+  border: 1px solid #ffffffde;
+  border-radius: 28px;
+  box-shadow: 0 5px 24px #3449781a;
+  backdrop-filter: blur(12px);
+}
+.phone-nav button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
+  min-height: 54px;
+  border-radius: 22px;
+  color: var(--muted);
+  padding: 5px;
+  font-size: 12px;
+}
+.phone-nav button[aria-current] {
+  background: #e1eafe;
+  color: #244fa8;
+  font-weight: 600;
+}
+.phone-nav .phone-compose {
+  background: #315fc3;
+  color: white;
+}
+.phone-nav .phone-compose:hover:not(:disabled) {
+  background: #264da2;
+}
+.android .phone-mail .list-pane {
+  flex: 1;
+  min-height: 0;
+  border: 0;
+  background: transparent;
+  padding-bottom: calc(
+    var(--phone-nav-height) + env(safe-area-inset-bottom, 0px)
+  );
+  width: 100%;
+  max-width: 740px;
+  align-self: center;
+}
+.android .phone-mail .list-header {
+  padding: 18px 20px 12px;
+}
+.phone-list-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.phone-back-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  border-radius: 24px;
+  background: var(--phone-glass);
+  gap: 4px;
+  padding: 7px 12px 7px 8px;
+  flex-shrink: 0;
+}
+.phone-account-mini {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 7px;
+  border-radius: 24px;
+  min-width: 0;
+  min-height: 48px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.phone-account-mini > span:not(.avatar) {
+  min-width: 0;
+  max-width: 135px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.phone-account-mini .avatar {
+  width: 28px;
+  height: 28px;
+  font-size: 10px;
+}
+.phone-account-mini svg {
+  width: 14px;
+}
+.android .phone-mail .search-box input {
+  border: 1px solid #ffffffaa;
+  border-radius: 25px;
+  background: var(--phone-glass);
+  min-height: 48px;
+  padding-left: 42px;
+}
+.android .phone-mail .search-box svg {
+  left: 15px;
+  top: 14px;
+  width: 19px;
+}
+.android .phone-mail .list-title {
+  margin: 22px 0 14px;
+}
+.android .phone-mail .list-title h1 {
+  font-size: 32px;
+  letter-spacing: -0.5px;
+}
+.android .phone-mail .list-title small {
+  margin-top: 5px;
+  font-size: 13px;
+}
+.phone-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+.phone-filters button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 48px;
+  padding: 8px 14px;
+  border-radius: 24px;
+  font-size: 13px;
+  background: #ffffff75;
+}
+.phone-filters svg {
+  width: 16px;
+  height: 16px;
+}
+.phone-filters button[aria-pressed="true"] {
+  background: #315fc3;
+  color: white;
+  box-shadow: 0 4px 12px #315fc325;
+}
+.android .phone-mail .message-list {
+  padding: 0 18px 8px;
+  overscroll-behavior-y: contain;
+}
+.android .phone-mail .mail-row {
+  background: var(--phone-glass);
+  margin: 9px 0;
+  padding: 16px 14px 16px 20px;
+  border: 1px solid #ffffffb5;
+  border-radius: 24px;
+  gap: 12px;
+}
+.android .phone-mail .mail-row:first-child {
+  margin-top: 0;
+}
+.android .phone-mail .mail-row:hover {
+  background: var(--surface);
+}
+.android .phone-mail .mail-row.selected {
+  border-color: #7299e1;
+  background: var(--active);
+}
+.android .phone-mail .mail-row.unread:before {
+  left: 7px;
+  top: 38px;
+  width: 5px;
+  height: 5px;
+}
+.android .phone-mail .mail-row .avatar {
+  width: 43px;
+  height: 43px;
+  margin-top: 3px;
+  font-size: 14px;
+  font-weight: 500;
+}
+.android .tone-blue {
+  background: #dce8fc;
+  color: #375987;
+}
+.android .tone-sage {
+  background: #dceee8;
+  color: #376257;
+}
+.android .tone-peach {
+  background: #f6e2d8;
+  color: #80533b;
+}
+.android .tone-lilac {
+  background: #e5dff8;
+  color: #67508f;
+}
+.android .phone-mail .mail-first {
+  gap: 7px;
+  align-items: baseline;
+}
+.android .phone-mail .mail-first strong {
+  font-size: 15px;
+  max-width: none;
+}
+.android .phone-mail .mail-first time {
+  font-size: 10px;
+}
+.android .phone-mail .mail-subject {
+  font-size: 14px;
+  margin: 3px 0 4px;
+}
+.android .phone-mail .mail-snippet {
+  font-size: 13px;
+  line-height: 1.55;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.android .phone-mail .mail-meta {
+  font-size: 11px;
+  gap: 6px;
+  margin-top: 7px;
+}
+.android .phone-mail .mail-meta svg {
+  width: 12px;
+  height: 12px;
+}
+.android .phone-mail .pager {
+  border: 0;
+  background: transparent;
+  padding: 3px 20px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.android .phone-mail .pager .row {
+  gap: 2px;
+}
+.android .phone-mail .reader {
+  display: none;
+}
+.android .phone-mail.reading .reader {
+  display: flex;
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  background: var(--ground);
+  padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px)
+    env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+}
+.android .phone-mail.reading .list-pane {
+  visibility: hidden;
+}
+.android .phone-mail.reading .phone-nav {
+  display: none;
+}
+.android .reader .icon-button[data-mobile] {
+  display: inline-grid;
+}
+.android .reader-toolbar {
+  flex: none;
+  min-height: 64px;
+  padding: 8px;
+  gap: 0;
+  border: 0;
+  background: var(--phone-glass);
+}
+.android .reader-actions {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0;
+  width: 100%;
+  justify-content: space-between;
+}
+.android .reader-toolbar > .muted {
+  display: none;
+}
+.android .reader-toolbar [aria-pressed="true"] {
+  color: #94611a;
+  background: #f9eed8;
+}
+.android .message-detail {
+  padding: 26px 22px 36px;
+  width: 100%;
+  max-width: 800px;
+  align-self: center;
+  background: var(--surface);
+  border-radius: 28px 28px 0 0;
+  margin-top: 10px;
+}
+.android .message-detail h2 {
+  font-size: 25px;
+  margin: 10px 0 24px;
+}
+.android .sender {
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--border);
+}
+.android .sender .avatar {
+  width: 44px;
+  height: 44px;
+}
+.android .message-body {
+  font-size: 16px;
+  line-height: 1.9;
+}
+.android .attachment {
+  border-radius: 16px;
+  background: var(--raised);
+  width: 100%;
+  min-height: 64px;
+}
+.android .attachment span {
+  flex: 1;
+  min-width: 0;
+  max-width: none;
+}
+.android .reply-actions .button {
+  flex: 1;
+}
+.android dialog {
+  border-radius: 28px;
+  width: min(600px, calc(100vw - 24px));
+  max-height: calc(100dvh - 24px);
+  box-shadow: 0 15px 70px #23355635;
+  background: var(--surface);
+}
+.android dialog::backdrop {
+  background: #24365766;
+}
+.android .dialog-heading {
+  padding: 14px 18px;
+}
+.android .dialog-heading h2 {
+  font-size: 21px;
+}
+.android .dialog-body {
+  padding: 20px;
+  max-height: calc(100dvh - 116px);
+}
+.android .account-card {
+  border-radius: 20px;
+  background: var(--raised);
+  padding: 12px;
+  gap: 6px;
+}
+.android .account-card > button:first-child {
+  min-height: 58px;
+}
+.android .account-card.current {
+  border-color: var(--accent);
+  background: var(--active);
+}
+.android .account-card .avatar {
+  width: 40px;
+  height: 40px;
+}
+.android .account-card strong {
+  font-size: 14px;
+}
+.android .account-card > button > span:last-child {
+  min-width: 0;
+}
+.android .account-card .icon-button {
+  flex: none;
+}
+.android dialog.wide {
+  width: 100vw;
+  max-width: 800px;
+  max-height: 100dvh;
+  height: 100dvh;
+  margin: 0 auto;
+  border: 0;
+  border-radius: 0;
+}
+.android dialog.wide .dialog-heading {
+  min-height: 72px;
+  background: var(--ground);
+}
+.android dialog.wide .dialog-body {
+  max-height: calc(100dvh - 72px);
+  padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+}
+.android .compose-text {
+  min-height: 220px;
+}
+.android .composer-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.android .field > span {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 500;
+}
+.android .form-actions {
+  align-items: center;
+}
+.android .form-actions .button {
+  flex: 1;
+}
+.android #draft-status:not(:empty) {
+  flex: 1 0 100%;
+}
+.android #toast {
+  bottom: calc(94px + env(safe-area-inset-bottom, 0px));
+  border-radius: 18px;
+}
+.android .login-page {
+  display: block;
+  background: var(--ground);
+  overflow-y: auto;
+  max-height: 100dvh;
+}
+.android .login-story {
+  background: transparent;
+  padding: 40px 26px 12px;
+}
+.android .login-story > div:not(:first-child),
+.android .login-story > small {
+  display: none;
+}
+.android .login-wrap {
+  background: transparent;
+  padding: 32px 26px;
+  min-height: 0;
+}
+.android .login-form {
+  background: var(--phone-glass);
+  border: 1px solid #ffffffaa;
+  padding: 26px;
+  border-radius: 28px;
+  max-width: 480px;
+}
+.android .login-form h1 {
+  font-size: 28px;
+}
+.android .login-form > p {
+  line-height: 1.6;
+  font-size: 14px;
+}
+.android .api-shell {
+  display: flex;
+  flex-direction: column;
+  padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px)
+    env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+}
+.android .api-pane {
+  flex: 1;
+}
+.android .api-topbar {
+  padding: 6px 12px;
+  background: var(--ground);
+}
+.android .api-topbar .button {
+  color: var(--ink);
+}
+@media (min-width: 720px) {
+  .android .phone-overview {
+    padding-top: 36px;
+  }
+  .android .mailbox-tile {
+    min-height: 160px;
+  }
+  .android .phone-folder-group button {
+    min-height: 60px;
+  }
+}
+@media (max-width: 359px) {
+  .android .phone-overview {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .android .phone-mail .list-header {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .android .phone-mail .message-list {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  .android .phone-filters {
+    gap: 5px;
+  }
+  .android .phone-filters button {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .android .phone-quiet {
+    display: none;
+  }
+  .android .phone-account-mini > span:not(.avatar) {
+    max-width: 100px;
+  }
+  .android .phone-mail .mail-row {
+    gap: 9px;
+    padding-right: 12px;
+  }
+  .android .phone-mail .mail-row .avatar {
+    width: 36px;
+    height: 36px;
+  }
+  .android .login-wrap {
+    padding: 20px 16px;
+  }
+  .android .login-form {
+    padding: 22px;
+  }
+}
+@media (max-height: 540px) and (min-width: 560px) {
+  .android .phone-mail .list-header {
+    padding-top: 8px;
+  }
+  .android .phone-list-top {
+    margin-bottom: 8px;
+  }
+  .android .phone-mail .list-title {
+    margin: 10px 0 8px;
+  }
+  .android .phone-mail .list-title h1 {
+    font-size: 24px;
+  }
+  .android .phone-mail .list-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 16px;
+  }
+  .android .phone-list-top {
+    margin: 0;
+  }
+  .android .phone-filters {
+    align-items: center;
+  }
+}
+@media (prefers-color-scheme: dark) {
+  body.android {
+    --ground: #191e2d;
+    --surface: #232a3b;
+    --raised: #293146;
+    --phone-glass: #293146df;
+    --ink: #f0f3ff;
+    --muted: #b3bdd6;
+    --accent: #a0bfff;
+    --border: #3a455d;
+    --control: #657492;
+    --active: #34476b;
+  }
+  .android .phone-shell {
+    background:
+      radial-gradient(ellipse at 95% 25%, #292943, transparent 65%), /* taste-skill-ignore: dark variant of user-specified frosted background */
+      var(--ground);
+  }
+  .android .phone-avatar .avatar {
+    background: #374769;
+    color: #dce6ff;
+    border-color: #596887;
+  }
+  .android .mailbox-tile {
+    border-color: #4c5972;
+    box-shadow: none;
+  }
+  .android .mailbox-tile.tile-peach {
+    background: #41342f;
+  }
+  .android .mailbox-tile.tile-lilac {
+    background: #34314d;
+  }
+  .android .tile-peach .tile-icon {
+    background: #65472f;
+    color: #ffdcb6;
+  }
+  .android .tile-lilac .tile-icon {
+    background: #4b4576;
+    color: #dcd4ff;
+  }
+  .android .tile-white .tile-icon {
+    background: #334769;
+    color: #c7daff;
+  }
+  .android .phone-folder-group,
+  .android .login-form {
+    border-color: #424c63;
+  }
+  .android .phone-folder-group svg,
+  .android .phone-shortcuts svg {
+    color: #b2caff;
+  }
+  .android .phone-nav {
+    background: #242d40f2;
+    border-color: #44516d;
+    box-shadow: 0 5px 24px #10182760;
+  }
+  .android .phone-nav button[aria-current] {
+    background: #3c537f;
+    color: #e6edff;
+  }
+  .android .phone-filters button {
+    background: #293146;
+  }
+  .android .phone-filters button[aria-pressed="true"] {
+    background: #3869cf;
+  }
+  .android .phone-mail .search-box input,
+  .android .phone-mail .mail-row {
+    border-color: #424c63;
+  }
+  .android .tone-blue {
+    background: #354b70;
+    color: #deebff;
+  }
+  .android .tone-sage {
+    background: #2e514c;
+    color: #d6f2e9;
+  }
+  .android .tone-peach {
+    background: #624839;
+    color: #ffe3ce;
+  }
+  .android .tone-lilac {
+    background: #4b416b;
+    color: #e9ddff;
+  }
+  .android .reader-toolbar [aria-pressed="true"] {
+    color: #ffdb9d;
+    background: #5b482c;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .android button {
+    transition: none;
+  }
+  .android button:active:not(:disabled) {
+    transform: none;
+  }
+}

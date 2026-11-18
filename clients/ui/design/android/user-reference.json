@@ -1,0 +1,36 @@
+{
+  "scope": "Android client only; existing server and Windows layout retained",
+  "reference": "User-provided f7f3c9c6f5b72193b9f085bd3d89a963.jpg, two light blue mobile mail screens",
+  "direction": "Frosted blue and lilac, rounded mailbox tiles, avatar message rows, floating bottom navigation",
+  "referenceOverrides": [
+    "Large corner radii",
+    "Soft gradient summary tiles and background",
+    "Four functional count tiles, no decorative charts",
+    "Reference uses colored circular folder icons and a prominent 36px overview title",
+    "Bottom navigation instead of drawer"
+  ],
+  "screens": {
+    "overview": "Which folder in this account needs my attention?",
+    "inbox": "Which email should I read or act on next?",
+    "reader": "What does this message say and how can I respond?",
+    "accounts": "Which server-backed account am I using?",
+    "compose": "Who am I writing to, and has my draft been saved?"
+  },
+  "data": {
+    "counts": "GET /api/client/mailbox, current account only; missing folder is zero; not loaded is an em dash",
+    "messages": "Existing paginated server API; unread and starred filters run on the server",
+    "avatars": "Local initials and deterministic color; no third-party avatar requests",
+    "preview": "Isolated test fixture with fictional accounts, never packaged in APK"
+  },
+  "interaction": [
+    "48px navigation targets",
+    "Native Back closes dialogs, then reader, then inbox, then backgrounds app",
+    "Unsaved draft confirmation retained",
+    "Per-account request race guards retained",
+    "Reduced motion and system dark theme",
+    "Safe-area offsets and landscape layout"
+  ],
+  "performance": "No new dependencies, images or fonts. Only the small bottom navigation uses blur; message rows use static fills. Existing 30-message pagination and search debounce retained.",
+  "reviewExceptions": {"icon-chips": "Four folder icons reproduce the explicitly requested reference; each names a working shortcut", "app-title-size": "36px overview title follows the reference; all other section headings remain compact", "shadow": "Very faint tile edges match the reference; strongest shadows are on real modal and navigation overlays", "glass": "Only the small fixed navigation blurs its background"},
+  "nativeVerification": "Build and signature checks plus isolated browser interaction tests; physical Android device acceptance remains pending."
+}

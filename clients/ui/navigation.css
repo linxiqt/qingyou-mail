@@ -1,0 +1,559 @@
+/* HarmonyOS-informed principles, project-defined web parameters.
+   See design/android/navigation-reference.json for official sources and scope.
+   Light is local, clipped and input-driven; there are no looping effects. */
+.light-surface {
+  isolation: isolate;
+}
+.light-surface::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: var(--light-top, 0px);
+  height: 100%;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient( /* taste-skill-ignore: user explicitly requires local input-following light */
+    ellipse 92px 62px at var(--light-x, 50%) var(--light-y, 50%),
+    #fffffffa 0%,
+    #c3e0ffc2 32%,
+    #91bbf73b 65%,
+    transparent 100%
+  ); /* taste-skill-ignore: requested local input-following light, not a decorative gradient */
+  opacity: 0;
+  transition: opacity 220ms ease-out;
+}
+.light-surface[data-light-on]::before {
+  opacity: 1;
+  transition-duration: 70ms;
+}
+.light-surface > * {
+  position: relative;
+  z-index: 1;
+}
+.sidebar {
+  position: relative;
+  isolation: isolate;
+  background: #e6edfa8c;
+}
+.sidebar.light-surface::before {
+  border-radius: 0;
+}
+.sidebar .folder-nav button,
+.sidebar .account-switch,
+.sidebar-footer .button {
+  background-color: transparent;
+}
+.sidebar .folder-nav button.active,
+.sidebar-footer .button.active {
+  background-color: #c6d9f37a;
+  color: #234a8d;
+}
+.sidebar button:hover:not(:disabled) {
+  background-color: #ffffff54;
+}
+body.android {
+  --phone-nav-height: 100px;
+}
+.android .phone-nav {
+  bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+  background: #ecf2fc85;
+  border: 1px solid #aabbd64d; /* taste-skill-ignore: low-contrast material edge, never a glowing outline */
+  border-radius: 29px;
+  backdrop-filter: blur(10px) saturate(1.25); /* taste-skill-ignore: explicitly requested transparent navigation only */
+  -webkit-backdrop-filter: blur(10px) saturate(1.25); /* taste-skill-ignore: navigation compatibility */
+  box-shadow: none; /* taste-skill-ignore: explicitly removes the old outside shadow */
+  overflow: hidden;
+  isolation: isolate;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  padding: 6px;
+  gap: 5px;
+}
+.android .phone-nav button {
+  min-width: 48px;
+  min-height: 60px;
+  border-radius: 23px;
+  padding: 6px 2px;
+  background: transparent;
+  color: #35455f;
+  font-size: 12px;
+  transition:
+    background-color 100ms ease-out,
+    color 100ms ease-out;
+  touch-action: none;
+  transform: none;
+}
+.android .phone-nav button:active:not(:disabled) {
+  transform: none;
+}
+.android .phone-nav button svg {
+  width: 23px;
+  height: 23px;
+}
+.android .phone-nav button[aria-current="page"] {
+  background: #c2d7f78c;
+  color: #1b4a9c;
+  font-weight: 600;
+}
+.android .phone-nav[data-scrubbing] button[aria-current="page"] {
+  background: transparent;
+}
+.android .phone-nav button[data-candidate] {
+  background: #aacbf29e;
+  color: #153d81;
+}
+.android .phone-nav button:hover:not(:disabled) {
+  background-color: transparent;
+}
+.android .phone-nav button[aria-current="page"]:hover {
+  background-color: #c2d7f78c;
+}
+.android .phone-nav[data-scrubbing] button[data-candidate] {
+  background-color: #aacbf29e;
+}
+.android .phone-nav button:focus-visible {
+  outline: 2px solid #244f9e;
+  outline-offset: -3px;
+}
+.android .phone-nav button:disabled {
+  opacity: 0.55;
+}
+.accounts-shell {
+  grid-template-columns: 236px minmax(0, 1fr);
+}
+.account-page-scroll {
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+  padding: 40px clamp(24px, 4vw, 60px);
+}
+.account-page-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 30px;
+}
+.account-page-heading h1 {
+  font-size: 32px;
+  margin-top: 4px;
+}
+.account-page-heading p {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 14px;
+}
+.account-columns {
+  display: grid;
+  grid-template-columns: minmax(230px, 0.8fr) minmax(300px, 1.4fr);
+  gap: 28px;
+  max-width: 1080px;
+  margin: 0 auto;
+  align-items: start;
+}
+.account-profile {
+  background: var(--surface);
+  padding: 30px 24px 10px;
+  border-radius: 24px;
+  text-align: center;
+  min-width: 0;
+}
+.account-profile > .avatar {
+  width: 70px;
+  height: 70px;
+  font-size: 23px;
+  margin: 0 auto 14px;
+}
+.account-current-label {
+  display: block;
+  font-size: 12px;
+  color: var(--accent);
+  margin: 8px 0 4px;
+}
+.account-profile h2 {
+  font-size: 23px;
+  overflow-wrap: anywhere;
+}
+.account-profile p {
+  font-size: 14px;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+  margin-top: 6px;
+}
+.account-profile dl {
+  margin: 24px 0 8px;
+  text-align: left;
+  font-size: 13px;
+}
+.account-profile dl div {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 0;
+}
+.account-profile dt {
+  flex: none;
+  color: var(--muted);
+}
+.account-profile dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+  text-align: right;
+}
+.account-api-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 16px 0;
+  min-height: 54px;
+  border-top: 1px solid var(--border); /* taste-skill-ignore: separates actionable API link from account metadata */
+  font-size: 14px;
+  text-align: left;
+}
+.account-api-link svg:last-child {
+  margin-left: auto;
+  width: 16px;
+}
+.saved-accounts {
+  min-width: 0;
+}
+.account-section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+.account-section-heading h2 {
+  font-size: 19px;
+}
+.account-section-heading h2 span {
+  font-size: 14px;
+  color: var(--muted);
+  font-weight: 400;
+  margin-left: 6px;
+}
+.account-badge {
+  display: block;
+  color: var(--accent);
+  font-size: 12px;
+  margin-top: 4px;
+}
+.account-privacy {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.7;
+  padding: 6px 4px;
+}
+.account-privacy svg {
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+}
+.account-list .account-card {
+  background: var(--surface);
+}
+.account-list .account-card > button:first-child {
+  min-height: 66px;
+}
+.account-list .account-card.current {
+  border-color: #7595bf;
+  background: #e5edf9;
+}
+.account-list .account-card strong {
+  font-size: 14px;
+}
+.account-list .account-card small {
+  font-size: 12px;
+}
+.account-list .account-card .icon-button {
+  flex-shrink: 0;
+}
+.android .account-page-scroll {
+  flex: 1;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 26px 22px
+    calc(var(--phone-nav-height) + env(safe-area-inset-bottom, 0px) + 18px);
+}
+.android .account-page-heading {
+  margin-bottom: 24px;
+}
+.android .account-columns {
+  grid-template-columns: 1fr;
+  gap: 26px;
+}
+.android .account-profile {
+  background: #ffffffa6;
+  border-radius: 27px;
+  padding: 22px 20px 8px;
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  column-gap: 14px;
+  text-align: left;
+}
+.android .account-profile > .avatar {
+  grid-column: 1;
+  grid-row: 1 / span 3;
+  align-self: center;
+  width: 52px;
+  height: 52px;
+  font-size: 18px;
+  margin: 0;
+}
+.android .account-current-label,
+.android .account-profile h2,
+.android .account-profile > p {
+  grid-column: 2;
+  margin: 0;
+}
+.android .account-profile h2 {
+  font-size: 21px;
+  margin: 3px 0;
+}
+.android .account-profile > p {
+  font-size: 12px;
+}
+.android .account-profile dl,
+.android .account-profile > .button,
+.android .account-api-link {
+  grid-column: 1 / -1;
+}
+.android .account-profile dl {
+  margin: 16px 0 4px;
+}
+.android .account-profile dl div {
+  padding: 7px 0;
+}
+.android .account-list .account-card {
+  background: #ffffffa6;
+}
+.android .account-list .account-card.current {
+  background: #dce7f9b8;
+}
+.android .account-page-scroll .account-card {
+  gap: 8px;
+  padding: 14px 12px;
+}
+.android .compose-page {
+  flex: 1;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  min-height: 0;
+  overflow: auto;
+  padding: 24px 22px
+    calc(var(--phone-nav-height) + env(safe-area-inset-bottom, 0px) + 24px);
+}
+.compose-page-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.compose-page-heading h1 {
+  font-size: 30px;
+  margin-top: 4px;
+}
+.android .compose-page #compose-form {
+  background: #ffffffa6;
+  border-radius: 25px;
+  padding: 22px 18px;
+}
+.android .compose-page .form-actions {
+  position: sticky;
+  bottom: 0;
+  background: var(--surface);
+  padding: 10px 0;
+  border-radius: 12px;
+}
+.android .compose-page .field input,
+.android .compose-page .field textarea {
+  background: #ffffffb3;
+}
+/* The very same four destinations become a left rail when there is room.
+   These breakpoints are project choices, not HarmonyOS specification values. */
+@media (min-width: 700px) {
+  .android .phone-shell {
+    padding-left: calc(118px + env(safe-area-inset-left, 0px));
+  }
+  .android .phone-nav {
+    display: flex;
+    flex-direction: column;
+    left: calc(16px + env(safe-area-inset-left, 0px));
+    right: auto;
+    top: 50%;
+    bottom: auto;
+    transform: translateY(-50%);
+    width: 86px;
+    padding: 8px;
+    margin: 0;
+    gap: 8px;
+  }
+  .android .phone-nav button {
+    width: 68px;
+    min-height: 68px;
+  }
+  .android .phone-overview {
+    max-width: 970px;
+    padding-bottom: 30px;
+  }
+  .android .phone-mail .list-pane {
+    padding-bottom: 12px;
+    max-width: 1000px;
+  }
+  .android .account-page-scroll,
+  .android .compose-page {
+    padding-bottom: 30px;
+  }
+  .android .account-columns {
+    grid-template-columns: minmax(220px, 0.9fr) minmax(250px, 1.2fr);
+    gap: 20px;
+  }
+  .android .phone-shell .reader {
+    padding-left: 0;
+  }
+}
+@media (min-width: 1050px) {
+  .android .phone-mail {
+    flex-direction: row;
+  }
+  .android .phone-mail .list-pane {
+    max-width: 390px;
+    flex: 0 0 390px;
+    align-self: stretch;
+  }
+  .android .phone-mail .reader,
+  .android .phone-mail.reading .reader {
+    position: static;
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    margin: 12px 14px 12px 0;
+    border-radius: 26px;
+    padding: 0;
+    background: #ffffff75;
+  }
+  .android .phone-mail.reading .list-pane {
+    visibility: visible;
+  }
+  .android .phone-mail.reading .phone-nav {
+    display: flex;
+  }
+  .android .phone-mail .message-detail {
+    margin-top: 0;
+  }
+  .android .phone-mail .reader .icon-button[data-mobile] {
+    display: none;
+  }
+}
+@media (max-width: 980px) {
+  body:not(.android) .account-columns {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 800px) {
+  body:not(.android) .sidebar {
+    position: fixed;
+  }
+  body:not(.android) .accounts-shell {
+    grid-template-columns: 1fr;
+  }
+}
+@media (min-width: 700px) and (max-width: 850px) {
+  .android .account-columns {
+    grid-template-columns: 1fr;
+  }
+}
+@media (prefers-color-scheme: dark) {
+  .light-surface::before {
+    background: radial-gradient( /* taste-skill-ignore: user-requested local light, dark variant */
+      ellipse 92px 62px at var(--light-x, 50%) var(--light-y, 50%),
+      #d1e6ff38 0%,
+      #89c6ff2b 30%,
+      #6d9ee514 65%,
+      transparent 100%
+    );
+  } /* taste-skill-ignore: requested local light in dark mode */
+  .sidebar {
+    background: #1c273c9c;
+    --muted: #cdd7e7;
+  }
+  .sidebar .folder-nav button.active,
+  .sidebar-footer .button.active {
+    background-color: #354a6b91;
+    color: #d8e6ff;
+  }
+  .sidebar button:hover:not(:disabled) {
+    background-color: transparent;
+  }
+  .android .phone-nav {
+    background: #202b3d8c;
+    border-color: #8198b733;
+    box-shadow: none; /* taste-skill-ignore: disables all outer glow */
+  }
+  .android .phone-nav button {
+    color: #d7e3fa;
+  }
+  .android .phone-nav button[aria-current="page"],
+  .android .phone-nav button[aria-current="page"]:hover {
+    background: #5b80bc54;
+    color: #ecf4ff;
+  }
+  .android .phone-nav[data-scrubbing] button[aria-current="page"] {
+    background: transparent;
+  }
+  .android .phone-nav[data-scrubbing] button[data-candidate] {
+    background: #4b6b9d5c;
+    color: #fff;
+  }
+  .android .phone-nav button:focus-visible {
+    outline-color: #c0d9ff;
+  }
+  .account-list .account-card.current,
+  .android .account-list .account-card.current {
+    background: #354561b3;
+    border-color: #8aa4ce;
+  }
+  .android .account-profile,
+  .android .account-list .account-card,
+  .android .compose-page #compose-form {
+    background: #29344ba6;
+  }
+  .android .compose-page .field input,
+  .android .compose-page .field textarea {
+    background: #202b3db3;
+  }
+  .android .phone-mail .reader,
+  .android .phone-mail.reading .reader {
+    background: var(--surface);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .light-surface::before,
+  .light-surface[data-light-on]::before,
+  .android .phone-nav button {
+    transition: none;
+  }
+}
+@supports not (
+  (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) /* taste-skill-ignore: feature detection only */
+) {
+  .android .phone-nav {
+    background: #e6eef9eb;
+  }
+  @media (prefers-color-scheme: dark) {
+    .android .phone-nav {
+      background: #202b3deb;
+    }
+  }
+}

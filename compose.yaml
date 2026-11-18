@@ -1,0 +1,43 @@
+services:
+  postoffice:
+    build: .
+    restart: unless-stopped
+    init: true
+    env_file: .env
+    environment:
+      NODE_ENV: production
+      HOST: 0.0.0.0
+      PORT: 3000
+      SMTP_HOST: 0.0.0.0
+      SMTP_PORT: 2525
+      SUBMISSION_PORT: 1587
+      IMAPS_PORT: 993
+      POP3S_PORT: 995
+      SMTPS_PORT: 465
+      DATA_DIR: /app/data
+      TLS_CERT_PATH: /certs/fullchain.pem
+      TLS_KEY_PATH: /certs/privkey.pem
+      SMTP_ALLOW_INSECURE_AUTH: "false"
+    ports:
+      - "127.0.0.1:3000:3000"
+      - "25:2525"
+      - "587:1587"
+      - "993:993"
+      - "995:995"
+      - "465:465"
+    sysctls:
+      net.ipv4.ip_unprivileged_port_start: 465
+    volumes:
+      - mail-data:/app/data
+      - ./backups:/app/backups
+      - ./certs:/certs:ro
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    stop_grace_period: 90s
+volumes:
+  mail-data:

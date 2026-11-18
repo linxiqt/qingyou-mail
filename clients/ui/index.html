@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; frame-src 'self' about:; object-src 'none'; base-uri 'none'; form-action 'none'"
+    />
+    <title>青邮 · 邮箱客户端</title>
+    <link rel="stylesheet" href="app.css" />
+    <link rel="stylesheet" href="android.css" />
+    <link rel="stylesheet" href="navigation.css" />
+    <link rel="stylesheet" href="server-access.css" />
+    <script src="bridge.js"></script>
+    <script type="module" src="app.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <div class="boot">
+        <h1>青邮</h1>
+        <p>正在打开你的邮箱…</p>
+      </div>
+    </div>
+    <dialog id="dialog"></dialog>
+    <div id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>

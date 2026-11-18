@@ -1,0 +1,35 @@
+# 在支持 .http 的工具中替换变量；密钥通过工具的私密环境注入。
+@baseUrl = https://mail.example.com:8443
+@apiKey = po_REPLACE_WITH_YOUR_KEY
+@mailbox = alice@example.com
+@messageId = 123
+
+### mail:read — 查询摘要
+GET {{baseUrl}}/api/v1/messages?email={{mailbox}}&folder=inbox&page=1&limit=30
+Authorization: Bearer {{apiKey}}
+
+### management — 读完整正文（不会自动标为已读）
+GET {{baseUrl}}/api/v1/manage/messages/{{messageId}}
+Authorization: Bearer {{apiKey}}
+
+### mail:send — 发送；运行前核对 from/to 和正文
+POST {{baseUrl}}/api/v1/send
+Authorization: Bearer {{apiKey}}
+Content-Type: application/json
+
+{"from":"alice@example.com","to":["bob@example.com"],"subject":"会议确认","text":"请确认明天下午三点的会议。"}
+
+### management — 标记已读
+PATCH {{baseUrl}}/api/v1/manage/messages/{{messageId}}
+Authorization: Bearer {{apiKey}}
+Content-Type: application/json
+
+{"read":true}
+
+### management — 域名和邮箱配额
+GET {{baseUrl}}/api/v1/manage/domains
+Authorization: Bearer {{apiKey}}
+
+### management — 查询邮箱账号（不是查邮件）
+GET {{baseUrl}}/api/v1/manage/accounts?domain=example.com&page=1&limit=30
+Authorization: Bearer {{apiKey}}

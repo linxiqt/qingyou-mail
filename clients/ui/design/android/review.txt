@@ -1,0 +1,23 @@
+ROUND 2 — Android reference implementation, 2026-11-03
+Seen in one second: a mailbox overview with a clear blue inbox tile.
+Idea (one sentence): use the supplied soft blue mobile mail design for real server-backed folders, messages and account switching.
+Live thing: overview counts, server filters, account switching, read/reply, draft saves and copied API examples use the existing bridge.
+Layout words by section: overview=two-column tiles / folders=grouped rows / inbox=avatar cards / reader=single article / accounts=modal sheet.
+Scores: design 7.8 · usability 8.0 · creativity 6.8 · content 8.0 → overall 7.7
+Caps applied: user reference explicitly requires soft gradients, large radii and circular category icons; these are documented exceptions. Marketing-page photograph quotas do not apply to a working mail client. Native device usability remains unverified.
+Top three problems (most visible first), each with the screenshot it shows in and the fix:
+1. First-pass overview labels/navigation were too small. Raised overview labels to 13–14px and navigation labels to 12px; final android-overview.png and inspector mobile-fold.jpg are readable.
+2. The first-pass blue card's light endpoint risked insufficient text contrast. Darkened it to #4f72bd; final android-overview.png preserves the reference's blue card with readable white text.
+3. Native Back previously left the activity instead of popping the mail UI. Added the Android back callback and guarded UI state transitions; browser-smoke verifies dialog dismissal, draft cancellation protection, reader/list return and scroll restoration. Actual Android gesture/keyboard acceptance still needs a device.
+
+Final verification:
+- Browser regression passed: Windows flows plus Android overview, server filters/search, error retry, per-account isolation, API copying, draft handling and Back bridge.
+- Screenshots reviewed at 320/375/390/430/768px, landscape 844x390, and inspector 1440/768/390px. Dark and reduced-motion variants checked.
+- Inspector: zero unwaived failures/warnings. Explicit reference allowances: gradient, glass, icon-chips, app-title-size. Static style lint: zero failures; intentional low-opacity shadows and fixed-navigation blur are documented warnings.
+- Thirteen client model/security/API definition tests passed.
+- Android JVM transport tests passed: isolated cookies/CSRF, TLS certificate pinning, hostname checking, redirect rejection and path validation.
+- APK v2/v3 signature and packaged runtime asset hashes verified. Signing certificate matches the previous 1.3.1 test build.
+- APK: clients/android/dist/Qingyou-Android-1.3.2-test.apk
+- SHA256: 979fbd1fda1331c9f7a0a80b5954aa7f8ae0b8a7d378a59b66348f387ebf6037
+- No real email sent and no server deployment changed during this task.
+- Screenshots use local fixture accounts; they are not real mailbox data and are not included in the APK.

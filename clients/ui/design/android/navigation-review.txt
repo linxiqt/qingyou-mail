@@ -1,0 +1,24 @@
+Navigation / account pages — 2026-11-04
+
+Seen in one second: 青邮 mail navigation with four real destinations; accounts have their own page.
+Idea: keep the blue/lilac mail identity, add interaction-driven local material light, and let the same navigation become a rail on wider windows.
+Layout: phone = one pane + floating bottom navigation; tablet = rail + content; wide mail = rail + list + detail; accounts = compact identity + saved accounts.
+Scores (self-review, not independent research): design 8.0, usability 8.5, creativity 7.0, content 8.5.
+
+Look-and-fix rounds:
+1. The first dark light peak washed out navigation text (nav-light-dark.png). Reduced the center to 56/255 alpha, removed the extra hover fill and darkened candidate fill. Text stays above the light and pseudo-element hit testing is disabled.
+2. The initial Android profile card pushed saved accounts off the first screen (nav-accounts-320.png / nav-accounts-page.png). Rebuilt the profile as compact two-column identity rows. At 390x844 both test accounts are visible above the bottom bar; smaller screens retain native scrolling and bottom padding.
+3. Leaving the compose page for accounts could keep a discarded composer as the return destination. Account return now resolves to the composer's valid origin; browser regression covers both compose→accounts→back and accounts→compose→back→back.
+
+Evidence:
+- Browser regression passes 35 workflow groups. Real CDP touch/mouse/keyboard covers forward/backward scrub, two fingers, gaps, disabled slots, ghost clicks, native sidebar/content pan and keyboard activation. Synthetic pointer events cover final-up-without-move, cancel, lost capture and blur boundaries. Touch fallback is exercised with PointerEvent feature detection disabled.
+- Candidate state is data-candidate only; real aria-current, DOM page identity and scroll remain unchanged during preview. Final coordinate is re-hit on release. Auto-sync does not rerender during a gesture.
+- Layout captures inspected: 320, 390, 430, 768, 1180px; 1440px desktop. Light/dark and reduced motion inspected. No horizontal overflow in regression; bottom navigation targets >=48px.
+- Native sidebar pan triggers pointercancel in Chromium; independent passive Touch Events keep local light tracking until release, without blocking scroll.
+- Thirteen model, API and Windows security tests passed.
+- Static style lint: 0 failures, 1 warning. Six em dashes are missing-data placeholders in mail UI, not decorative copy.
+- Real browser inspector: 0 failures, 1 warning. The unused-canvas warning on 1440px overview is the intentionally centered 970px content cap after reserving 118px for the rail; screenshot desktop-fold.jpg shows balanced content margins within the remaining canvas. Reading width is retained.
+- User-requested local radial light, translucent navigation, no outside shadow, and one divider between metadata and the API action are annotated source exceptions. Official principles and original implementation parameters are separated in navigation-reference.json.
+- APK compiles, verifies v2/v3 signature and all packaged runtime hashes. Test certificate matches earlier Android builds.
+- No Android device/emulator was attached. Device keyboard, accessibility services, installation and WebView-specific behavior remain device acceptance tasks; browser tests are not described as device tests.
+- No real email was sent; no server configuration was changed. Screenshots use fictional local fixture accounts and are excluded from runtime packages.

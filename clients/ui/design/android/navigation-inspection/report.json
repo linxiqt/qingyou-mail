@@ -1,0 +1,1659 @@
+{
+ "url": "http://127.0.0.1:61222/?android=1",
+ "at": "2026-11-04T05:34:19.636Z",
+ "allow": [
+  "gradient",
+  "glass",
+  "icon-chips",
+  "app-title-size"
+ ],
+ "viewports": [
+  {
+   "width": 1440,
+   "height": 900,
+   "load": "load",
+   "screens": 1,
+   "filled": [
+    1
+   ],
+   "motion": {
+    "elements": 0,
+    "css": 0,
+    "transitions": 0,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "page": {
+     "height": 900,
+     "screens": 1,
+     "words": 42,
+     "img": 0,
+     "video": 0,
+     "canvas": 0,
+     "svg": 28,
+     "sections": 1,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 0,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "邮箱",
+     "words": 1,
+     "chars": 2,
+     "lines": 1,
+     "size": 36,
+     "vw": 2.5,
+     "font": "Segoe UI",
+     "weight": 700,
+     "tracking": -0.02,
+     "leading": 1.25,
+     "top": 62,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "h1": {
+     "text": "邮箱",
+     "words": 1,
+     "lines": 1,
+     "size": 36,
+     "font": "Segoe UI"
+    },
+    "headings": [
+     {
+      "text": "邮箱",
+      "words": 1,
+      "chars": 2,
+      "lines": 1,
+      "size": 36,
+      "vw": 2.5,
+      "font": "Segoe UI",
+      "weight": 700,
+      "tracking": -0.022,
+      "leading": 1.25,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.05,
+      "top": 62,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "4",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 32,
+      "vw": 2.2,
+      "font": "Segoe UI",
+      "weight": 600,
+      "tracking": 0,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.01,
+      "top": 225,
+      "tag": "strong",
+      "kind": "heading"
+     },
+     {
+      "text": "2",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 32,
+      "vw": 2.2,
+      "font": "Segoe UI",
+      "weight": 600,
+      "tracking": 0,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.01,
+      "top": 225,
+      "tag": "strong",
+      "kind": "heading"
+     },
+     {
+      "text": "1",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 32,
+      "vw": 2.2,
+      "font": "Segoe UI",
+      "weight": 600,
+      "tracking": 0,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.01,
+      "top": 398,
+      "tag": "strong",
+      "kind": "heading"
+     },
+     {
+      "text": "8",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 32,
+      "vw": 2.2,
+      "font": "Segoe UI",
+      "weight": 600,
+      "tracking": 0,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.01,
+      "top": 398,
+      "tag": "strong",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 5,
+     "maxLines": 1,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": 1,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Segoe UI",
+       "share": 1,
+       "mono": false
+      }
+     ],
+     "familyCount": 1,
+     "sizes": [
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      32,
+      36
+     ],
+     "sizeCount": 8,
+     "notLoaded": [],
+     "body": null,
+     "measureChars": null,
+     "max": {
+      "size": 36,
+      "vw": 2.5,
+      "font": "Segoe UI",
+      "text": "邮箱"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0.2,
+     "centerShare": 0.33,
+     "smallText": 1
+    },
+    "eyebrows": [],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#f0f2fb",
+     "bodyBgHsl": {
+      "h": 229,
+      "s": 0.58,
+      "l": 0.96
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#f0f2fb",
+       "top": 0,
+       "hsl": {
+        "h": 229,
+        "s": 0.58,
+        "l": 0.96
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#5c6680",
+       "share": 0.5
+      },
+      {
+       "color": "#20283f",
+       "share": 0.38
+      },
+      {
+       "color": "#35455f",
+       "share": 0.06
+      },
+      {
+       "color": "#ffffff",
+       "share": 0.03
+      },
+      {
+       "color": "#3c5077",
+       "share": 0.02
+      }
+     ],
+     "button": {
+      "bg": "#ffffff",
+      "hsl": {
+       "h": 0,
+       "s": 0,
+       "l": 1
+      },
+      "fg": "#20283f"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 8,
+     "inHero": 5,
+     "radius": 0,
+     "height": 60,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "已发送 8",
+      "草稿箱 1",
+      "垃圾邮件 0",
+      "已删除 0",
+      "邮箱"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 4,
+     "shadowOverlay": 0,
+     "shadowSamples": [
+      "button.mailbox-tile.tile-blue → rgba(70, 92, 150, 0.063) 0px 5px 16px 0px, rgba(255, 255, 255, 0.565) 0px 1px 0p",
+      "button.mailbox-tile.tile-white → rgba(70, 92, 150, 0.063) 0px 5px 16px 0px, rgba(255, 255, 255, 0.565) 0px 1px 0p",
+      "button.mailbox-tile.tile-peach → rgba(70, 92, 150, 0.063) 0px 5px 16px 0px, rgba(255, 255, 255, 0.565) 0px 1px 0p",
+      "button.mailbox-tile.tile-lilac → rgba(70, 92, 150, 0.063) 0px 5px 16px 0px, rgba(255, 255, 255, 0.565) 0px 1px 0p"
+     ],
+     "gradients": 4,
+     "scrims": 0,
+     "gradientSamples": [
+      "main.shell.phone-shell → radial-gradient(at 95% 22%, rgb(230, 230, 250) 0px, rgba(0, 0, 0, 0) 52%), radial-gradient(at 4% 0px, rgb(230,",
+      "button.mailbox-tile.tile-blue → linear-gradient(140deg, rgb(79, 114, 189) 0%, rgb(60, 99, 186) 100%)",
+      "button.mailbox-tile.tile-peach → linear-gradient(135deg, rgb(255, 246, 236), rgb(248, 238, 234))",
+      "button.mailbox-tile.tile-lilac → linear-gradient(135deg, rgb(242, 239, 255), rgb(232, 232, 252))"
+     ],
+     "gradientText": 0,
+     "hairlines": 4,
+     "hairlineSamples": [
+      "button 894px",
+      "button 894px",
+      "button 894px",
+      "button 894px"
+     ],
+     "outlinedBoxes": 5,
+     "dashed": 0,
+     "blurred": 1,
+     "roundedBoxes": 5,
+     "boxRadius": 27,
+     "squareMedia": 0,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": []
+    },
+    "heroMedia": [],
+    "nav": {
+     "links": 0,
+     "fixed": false,
+     "height": 71,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": []
+   },
+   "layout": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "pageH": 900,
+    "margins": {
+     "left": 316,
+     "right": 198
+    },
+    "sections": [
+     {
+      "sel": "div.mailbox-tiles",
+      "tag": "div",
+      "top": 131,
+      "height": 333,
+      "words": 4,
+      "media": 0,
+      "middle": 13,
+      "heading": null,
+      "left": 316,
+      "right": 198,
+      "textLeft": 335,
+      "textRight": 580,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "nav.phone-folder-group",
+      "tag": "nav",
+      "top": 545,
+      "height": 310,
+      "words": 5,
+      "media": 0,
+      "middle": 0,
+      "heading": null,
+      "left": 332,
+      "right": 214,
+      "textLeft": 366,
+      "textRight": 1014,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "邮箱",
+      "size": 36,
+      "top": 62,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 316,
+      "n": 2
+     }
+    ],
+    "leftBlocks": 2,
+    "bodySize": 16,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0.11,
+    "voidBox": {
+     "x": 120,
+     "y": 120,
+     "w": 180,
+     "h": 780
+    }
+   },
+   "app": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "dark": false,
+    "ground": "#f0f2fb",
+    "sidebar": null,
+    "topbar": null,
+    "canvas": {
+     "left": 25,
+     "right": 198
+    },
+    "hero": {
+     "text": "邮箱",
+     "words": 1,
+     "chars": 2,
+     "lines": 1,
+     "size": 36,
+     "vw": 2.5,
+     "font": "Segoe UI",
+     "weight": 700,
+     "tracking": -0.02,
+     "leading": 1.25,
+     "top": 62,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "charts": 0,
+    "layout": {
+     "panels": 5,
+     "firstScreen": 5,
+     "ragged": [],
+     "voids": []
+    },
+    "tiles": 0,
+    "panels": {
+     "count": 5,
+     "radii": [
+      [
+       27,
+       4
+      ],
+      [
+       25,
+       1
+      ]
+     ],
+     "heavyBorders": 1,
+     "borderSamples": [
+      "#8fa9e3 on #f0f2fb (2.1:1)"
+     ],
+     "heavyShadows": 0,
+     "softShadows": 4,
+     "shadowSamples": [],
+     "glass": 0
+    },
+    "chips": {
+     "count": 4,
+     "hues": 4,
+     "samples": [
+      {
+       "hue": 0,
+       "size": 33,
+       "radius": "50%"
+      },
+      {
+       "hue": 219,
+       "size": 33,
+       "radius": "50%"
+      },
+      {
+       "hue": 32,
+       "size": 33,
+       "radius": "50%"
+      },
+      {
+       "hue": 240,
+       "size": 33,
+       "radius": "50%"
+      }
+     ]
+    },
+    "numbers": {
+     "cells": 0,
+     "leftAligned": 0,
+     "figures": 0,
+     "tabularShare": null,
+     "kpiMax": null
+    },
+    "rows": null,
+    "chartHues": 0,
+    "placeholders": [],
+    "type": {
+     "under13": 0.42,
+     "tiny": 0,
+     "tinySamples": [],
+     "sizes": [
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      36
+     ]
+    },
+    "title": {
+     "text": "邮箱",
+     "size": 36,
+     "top": 62
+    },
+    "colourShare": 0.057
+   },
+   "consoleErrors": []
+  },
+  {
+   "width": 768,
+   "height": 1024,
+   "load": "load",
+   "screens": 1,
+   "filled": [
+    1
+   ],
+   "motion": {
+    "elements": 0,
+    "css": 0,
+    "transitions": 0,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "page": {
+     "height": 1024,
+     "screens": 1,
+     "words": 42,
+     "img": 0,
+     "video": 0,
+     "canvas": 0,
+     "svg": 28,
+     "sections": 1,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 0,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "邮箱",
+     "words": 1,
+     "chars": 2,
+     "lines": 1,
+     "size": 36,
+     "vw": 4.7,
+     "font": "Segoe UI",
+     "weight": 700,
+     "tracking": -0.02,
+     "leading": 1.25,
+     "top": 62,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "h1": {
+     "text": "邮箱",
+     "words": 1,
+     "lines": 1,
+     "size": 36,
+     "font": "Segoe UI"
+    },
+    "headings": [
+     {
+      "text": "邮箱",
+      "words": 1,
+      "chars": 2,
+      "lines": 1,
+      "size": 36,
+      "vw": 4.7,
+      "font": "Segoe UI",
+      "weight": 700,
+      "tracking": -0.022,
+      "leading": 1.25,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.09,
+      "top": 62,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "4",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 32,
+      "vw": 4.2,
+      "font": "Segoe UI",
+      "weight": 600,
+      "tracking": 0,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.02,
+      "top": 225,
+      "tag": "strong",
+      "kind": "heading"
+     },
+     {
+      "text": "2",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 32,
+      "vw": 4.2,
+      "font": "Segoe UI",
+      "weight": 600,
+      "tracking": 0,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.02,
+      "top": 225,
+      "tag": "strong",
+      "kind": "heading"
+     },
+     {
+      "text": "1",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 32,
+      "vw": 4.2,
+      "font": "Segoe UI",
+      "weight": 600,
+      "tracking": 0,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.02,
+      "top": 398,
+      "tag": "strong",
+      "kind": "heading"
+     },
+     {
+      "text": "8",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 32,
+      "vw": 4.2,
+      "font": "Segoe UI",
+      "weight": 600,
+      "tracking": 0,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.02,
+      "top": 398,
+      "tag": "strong",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 5,
+     "maxLines": 1,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": 1,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Segoe UI",
+       "share": 1,
+       "mono": false
+      }
+     ],
+     "familyCount": 1,
+     "sizes": [
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      32,
+      36
+     ],
+     "sizeCount": 8,
+     "notLoaded": [],
+     "body": null,
+     "measureChars": null,
+     "max": {
+      "size": 36,
+      "vw": 4.7,
+      "font": "Segoe UI",
+      "text": "邮箱"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0.2,
+     "centerShare": 0.33,
+     "smallText": 1
+    },
+    "eyebrows": [],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#f0f2fb",
+     "bodyBgHsl": {
+      "h": 229,
+      "s": 0.58,
+      "l": 0.96
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#f0f2fb",
+       "top": 0,
+       "hsl": {
+        "h": 229,
+        "s": 0.58,
+        "l": 0.96
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#5c6680",
+       "share": 0.5
+      },
+      {
+       "color": "#20283f",
+       "share": 0.38
+      },
+      {
+       "color": "#35455f",
+       "share": 0.06
+      },
+      {
+       "color": "#ffffff",
+       "share": 0.03
+      },
+      {
+       "color": "#3c5077",
+       "share": 0.02
+      }
+     ],
+     "button": {
+      "bg": "#ffffff",
+      "hsl": {
+       "h": 0,
+       "s": 0,
+       "l": 1
+      },
+      "fg": "#20283f"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 8,
+     "inHero": 8,
+     "radius": 0,
+     "height": 60,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "已发送 8",
+      "草稿箱 1",
+      "垃圾邮件 0",
+      "已删除 0",
+      "已标星"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 4,
+     "shadowOverlay": 0,
+     "shadowSamples": [
+      "button.mailbox-tile.tile-blue → rgba(70, 92, 150, 0.063) 0px 5px 16px 0px, rgba(255, 255, 255, 0.565) 0px 1px 0p",
+      "button.mailbox-tile.tile-white → rgba(70, 92, 150, 0.063) 0px 5px 16px 0px, rgba(255, 255, 255, 0.565) 0px 1px 0p",
+      "button.mailbox-tile.tile-peach → rgba(70, 92, 150, 0.063) 0px 5px 16px 0px, rgba(255, 255, 255, 0.565) 0px 1px 0p",
+      "button.mailbox-tile.tile-lilac → rgba(70, 92, 150, 0.063) 0px 5px 16px 0px, rgba(255, 255, 255, 0.565) 0px 1px 0p"
+     ],
+     "gradients": 4,
+     "scrims": 0,
+     "gradientSamples": [
+      "main.shell.phone-shell → radial-gradient(at 95% 22%, rgb(230, 230, 250) 0px, rgba(0, 0, 0, 0) 52%), radial-gradient(at 4% 0px, rgb(230,",
+      "button.mailbox-tile.tile-blue → linear-gradient(140deg, rgb(79, 114, 189) 0%, rgb(60, 99, 186) 100%)",
+      "button.mailbox-tile.tile-peach → linear-gradient(135deg, rgb(255, 246, 236), rgb(248, 238, 234))",
+      "button.mailbox-tile.tile-lilac → linear-gradient(135deg, rgb(242, 239, 255), rgb(232, 232, 252))"
+     ],
+     "gradientText": 0,
+     "hairlines": 4,
+     "hairlineSamples": [
+      "button 574px",
+      "button 574px",
+      "button 574px",
+      "button 574px"
+     ],
+     "outlinedBoxes": 5,
+     "dashed": 0,
+     "blurred": 1,
+     "roundedBoxes": 5,
+     "boxRadius": 27,
+     "squareMedia": 0,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": []
+    },
+    "heroMedia": [],
+    "nav": {
+     "links": 0,
+     "fixed": false,
+     "height": 71,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": []
+   },
+   "layout": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "pageH": 1024,
+    "margins": {
+     "left": 140,
+     "right": 22
+    },
+    "sections": [
+     {
+      "sel": "div.mailbox-tiles",
+      "tag": "div",
+      "top": 131,
+      "height": 333,
+      "words": 4,
+      "media": 0,
+      "middle": 13,
+      "heading": null,
+      "left": 140,
+      "right": 22,
+      "textLeft": 159,
+      "textRight": 244,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "nav.phone-folder-group",
+      "tag": "nav",
+      "top": 545,
+      "height": 310,
+      "words": 5,
+      "media": 0,
+      "middle": 0,
+      "heading": null,
+      "left": 156,
+      "right": 38,
+      "textLeft": 190,
+      "textRight": 518,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "邮箱",
+      "size": 36,
+      "top": 62,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 140,
+      "n": 2
+     }
+    ],
+    "leftBlocks": 2,
+    "bodySize": 16,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "dark": false,
+    "ground": "#f0f2fb",
+    "sidebar": null,
+    "topbar": null,
+    "canvas": {
+     "left": 25,
+     "right": 22
+    },
+    "hero": {
+     "text": "邮箱",
+     "words": 1,
+     "chars": 2,
+     "lines": 1,
+     "size": 36,
+     "vw": 4.7,
+     "font": "Segoe UI",
+     "weight": 700,
+     "tracking": -0.02,
+     "leading": 1.25,
+     "top": 62,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "charts": 0,
+    "layout": {
+     "panels": 5,
+     "firstScreen": 5,
+     "ragged": [],
+     "voids": []
+    },
+    "tiles": 0,
+    "panels": {
+     "count": 5,
+     "radii": [
+      [
+       27,
+       4
+      ],
+      [
+       25,
+       1
+      ]
+     ],
+     "heavyBorders": 1,
+     "borderSamples": [
+      "#8fa9e3 on #f0f2fb (2.1:1)"
+     ],
+     "heavyShadows": 0,
+     "softShadows": 4,
+     "shadowSamples": [],
+     "glass": 0
+    },
+    "chips": {
+     "count": 4,
+     "hues": 4,
+     "samples": [
+      {
+       "hue": 0,
+       "size": 33,
+       "radius": "50%"
+      },
+      {
+       "hue": 219,
+       "size": 33,
+       "radius": "50%"
+      },
+      {
+       "hue": 32,
+       "size": 33,
+       "radius": "50%"
+      },
+      {
+       "hue": 240,
+       "size": 33,
+       "radius": "50%"
+      }
+     ]
+    },
+    "numbers": {
+     "cells": 0,
+     "leftAligned": 0,
+     "figures": 0,
+     "tabularShare": null,
+     "kpiMax": null
+    },
+    "rows": null,
+    "chartHues": 0,
+    "placeholders": [],
+    "type": {
+     "under13": 0.42,
+     "tiny": 0,
+     "tinySamples": [],
+     "sizes": [
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      36
+     ]
+    },
+    "title": {
+     "text": "邮箱",
+     "size": 36,
+     "top": 62
+    },
+    "colourShare": 0.06
+   },
+   "consoleErrors": []
+  },
+  {
+   "width": 390,
+   "height": 844,
+   "load": "load",
+   "screens": 1,
+   "filled": [
+    1
+   ],
+   "motion": {
+    "elements": 0,
+    "css": 0,
+    "transitions": 0,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "page": {
+     "height": 844,
+     "screens": 1,
+     "words": 42,
+     "img": 0,
+     "video": 0,
+     "canvas": 0,
+     "svg": 28,
+     "sections": 1,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 0,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "邮箱",
+     "words": 1,
+     "chars": 2,
+     "lines": 1,
+     "size": 36,
+     "vw": 9.2,
+     "font": "Segoe UI",
+     "weight": 700,
+     "tracking": -0.02,
+     "leading": 1.25,
+     "top": 50,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "h1": {
+     "text": "邮箱",
+     "words": 1,
+     "lines": 1,
+     "size": 36,
+     "font": "Segoe UI"
+    },
+    "headings": [
+     {
+      "text": "邮箱",
+      "words": 1,
+      "chars": 2,
+      "lines": 1,
+      "size": 36,
+      "vw": 9.2,
+      "font": "Segoe UI",
+      "weight": 700,
+      "tracking": -0.022,
+      "leading": 1.25,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.18,
+      "top": 50,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "4",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 32,
+      "vw": 8.2,
+      "font": "Segoe UI",
+      "weight": 600,
+      "tracking": 0,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.05,
+      "top": 213,
+      "tag": "strong",
+      "kind": "heading"
+     },
+     {
+      "text": "2",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 32,
+      "vw": 8.2,
+      "font": "Segoe UI",
+      "weight": 600,
+      "tracking": 0,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.05,
+      "top": 213,
+      "tag": "strong",
+      "kind": "heading"
+     },
+     {
+      "text": "1",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 32,
+      "vw": 8.2,
+      "font": "Segoe UI",
+      "weight": 600,
+      "tracking": 0,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.05,
+      "top": 372,
+      "tag": "strong",
+      "kind": "heading"
+     },
+     {
+      "text": "8",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 32,
+      "vw": 8.2,
+      "font": "Segoe UI",
+      "weight": 600,
+      "tracking": 0,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.05,
+      "top": 372,
+      "tag": "strong",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 5,
+     "maxLines": 1,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": 1,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Segoe UI",
+       "share": 1,
+       "mono": false
+      }
+     ],
+     "familyCount": 1,
+     "sizes": [
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      32,
+      36
+     ],
+     "sizeCount": 8,
+     "notLoaded": [],
+     "body": null,
+     "measureChars": null,
+     "max": {
+      "size": 36,
+      "vw": 9.2,
+      "font": "Segoe UI",
+      "text": "邮箱"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0.2,
+     "centerShare": 0.33,
+     "smallText": 1
+    },
+    "eyebrows": [],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#f0f2fb",
+     "bodyBgHsl": {
+      "h": 229,
+      "s": 0.58,
+      "l": 0.96
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#f0f2fb",
+       "top": 0,
+       "hsl": {
+        "h": 229,
+        "s": 0.58,
+        "l": 0.96
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#5c6680",
+       "share": 0.5
+      },
+      {
+       "color": "#20283f",
+       "share": 0.38
+      },
+      {
+       "color": "#35455f",
+       "share": 0.06
+      },
+      {
+       "color": "#ffffff",
+       "share": 0.03
+      },
+      {
+       "color": "#3c5077",
+       "share": 0.02
+      }
+     ],
+     "button": {
+      "bg": "#ffffff",
+      "hsl": {
+       "h": 0,
+       "s": 0,
+       "l": 1
+      },
+      "fg": "#20283f"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 8,
+     "inHero": 8,
+     "radius": 0,
+     "height": 54,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "已发送 8",
+      "草稿箱 1",
+      "垃圾邮件 0",
+      "已删除 0",
+      "已标星"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 4,
+     "shadowOverlay": 0,
+     "shadowSamples": [
+      "button.mailbox-tile.tile-blue → rgba(70, 92, 150, 0.063) 0px 5px 16px 0px, rgba(255, 255, 255, 0.565) 0px 1px 0p",
+      "button.mailbox-tile.tile-white → rgba(70, 92, 150, 0.063) 0px 5px 16px 0px, rgba(255, 255, 255, 0.565) 0px 1px 0p",
+      "button.mailbox-tile.tile-peach → rgba(70, 92, 150, 0.063) 0px 5px 16px 0px, rgba(255, 255, 255, 0.565) 0px 1px 0p",
+      "button.mailbox-tile.tile-lilac → rgba(70, 92, 150, 0.063) 0px 5px 16px 0px, rgba(255, 255, 255, 0.565) 0px 1px 0p"
+     ],
+     "gradients": 4,
+     "scrims": 0,
+     "gradientSamples": [
+      "main.shell.phone-shell → radial-gradient(at 95% 22%, rgb(230, 230, 250) 0px, rgba(0, 0, 0, 0) 52%), radial-gradient(at 4% 0px, rgb(230,",
+      "button.mailbox-tile.tile-blue → linear-gradient(140deg, rgb(79, 114, 189) 0%, rgb(60, 99, 186) 100%)",
+      "button.mailbox-tile.tile-peach → linear-gradient(135deg, rgb(255, 246, 236), rgb(248, 238, 234))",
+      "button.mailbox-tile.tile-lilac → linear-gradient(135deg, rgb(242, 239, 255), rgb(232, 232, 252))"
+     ],
+     "gradientText": 0,
+     "hairlines": 4,
+     "hairlineSamples": [
+      "button 314px",
+      "button 314px",
+      "button 314px",
+      "button 314px"
+     ],
+     "outlinedBoxes": 5,
+     "dashed": 0,
+     "blurred": 1,
+     "roundedBoxes": 5,
+     "boxRadius": 27,
+     "squareMedia": 0,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": []
+    },
+    "heroMedia": [],
+    "nav": {
+     "links": 0,
+     "fixed": false,
+     "height": 71,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": []
+   },
+   "layout": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "pageH": 844,
+    "margins": {
+     "left": 22,
+     "right": 22
+    },
+    "sections": [
+     {
+      "sel": "div.mailbox-tiles",
+      "tag": "div",
+      "top": 119,
+      "height": 305,
+      "words": 4,
+      "media": 0,
+      "middle": 13,
+      "heading": null,
+      "left": 22,
+      "right": 22,
+      "textLeft": 41,
+      "textRight": 114,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "nav.phone-folder-group",
+      "tag": "nav",
+      "top": 505,
+      "height": 280,
+      "words": 5,
+      "media": 0,
+      "middle": 0,
+      "heading": null,
+      "left": 38,
+      "right": 38,
+      "textLeft": 72,
+      "textRight": 258,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "邮箱",
+      "size": 36,
+      "top": 50,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 22,
+      "n": 2
+     }
+    ],
+    "leftBlocks": 2,
+    "bodySize": 16,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "dark": false,
+    "ground": "#f0f2fb",
+    "sidebar": null,
+    "topbar": null,
+    "canvas": {
+     "left": 22,
+     "right": 22
+    },
+    "hero": {
+     "text": "邮箱",
+     "words": 1,
+     "chars": 2,
+     "lines": 1,
+     "size": 36,
+     "vw": 9.2,
+     "font": "Segoe UI",
+     "weight": 700,
+     "tracking": -0.02,
+     "leading": 1.25,
+     "top": 50,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "charts": 0,
+    "layout": {
+     "panels": 6,
+     "firstScreen": 6,
+     "ragged": [],
+     "voids": []
+    },
+    "tiles": 0,
+    "panels": {
+     "count": 6,
+     "radii": [
+      [
+       27,
+       4
+      ],
+      [
+       25,
+       1
+      ],
+      [
+       29,
+       1
+      ]
+     ],
+     "heavyBorders": 2,
+     "borderSamples": [
+      "#8fa9e3 on #f0f2fb (2.1:1)",
+      "#a9b9d7 on #f0f2fb (1.77:1)"
+     ],
+     "heavyShadows": 0,
+     "softShadows": 4,
+     "shadowSamples": [],
+     "glass": 1
+    },
+    "chips": {
+     "count": 4,
+     "hues": 4,
+     "samples": [
+      {
+       "hue": 0,
+       "size": 33,
+       "radius": "50%"
+      },
+      {
+       "hue": 219,
+       "size": 33,
+       "radius": "50%"
+      },
+      {
+       "hue": 32,
+       "size": 33,
+       "radius": "50%"
+      },
+      {
+       "hue": 240,
+       "size": 33,
+       "radius": "50%"
+      }
+     ]
+    },
+    "numbers": {
+     "cells": 0,
+     "leftAligned": 0,
+     "figures": 0,
+     "tabularShare": null,
+     "kpiMax": null
+    },
+    "rows": null,
+    "chartHues": 0,
+    "placeholders": [],
+    "type": {
+     "under13": 0.42,
+     "tiny": 0,
+     "tinySamples": [],
+     "sizes": [
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      36
+     ]
+    },
+    "title": {
+     "text": "邮箱",
+     "size": 36,
+     "top": 50
+    },
+    "colourShare": 0.069
+   },
+   "consoleErrors": []
+  }
+ ],
+ "findings": [
+  {
+   "level": "WARN",
+   "id": "unused-canvas",
+   "width": 1440,
+   "message": "The content stops 198px short of the right edge while it starts 25px from the sidebar.",
+   "fix": "Let the grid fill the canvas (columns in fr units), or centre a capped canvas with equal margins. A dead strip on one side reads as unfinished."
+  }
+ ],
+ "images": [
+  {
+   "viewport": "desktop",
+   "width": 1440,
+   "fold": "D:\\user\\桌面\\email\\clients\\ui\\design\\android\\navigation-inspection\\desktop-fold.jpg",
+   "pages": [
+    "D:\\user\\桌面\\email\\clients\\ui\\design\\android\\navigation-inspection\\desktop-page-01.jpg"
+   ],
+   "film": []
+  },
+  {
+   "viewport": "tablet",
+   "width": 768,
+   "fold": "D:\\user\\桌面\\email\\clients\\ui\\design\\android\\navigation-inspection\\tablet-fold.jpg",
+   "pages": [
+    "D:\\user\\桌面\\email\\clients\\ui\\design\\android\\navigation-inspection\\tablet-page-01.jpg"
+   ],
+   "film": []
+  },
+  {
+   "viewport": "mobile",
+   "width": 390,
+   "fold": "D:\\user\\桌面\\email\\clients\\ui\\design\\android\\navigation-inspection\\mobile-fold.jpg",
+   "pages": [
+    "D:\\user\\桌面\\email\\clients\\ui\\design\\android\\navigation-inspection\\mobile-page-01.jpg"
+   ],
+   "film": []
+  }
+ ]
+}

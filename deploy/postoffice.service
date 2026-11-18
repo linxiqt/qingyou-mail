@@ -1,0 +1,27 @@
+[Unit]
+Description=Qingyou Node.js Post Office
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=postoffice
+Group=postoffice
+WorkingDirectory=/opt/postoffice
+Environment=NODE_ENV=production
+ExecStart=/usr/bin/node --env-file=/opt/postoffice/.env /opt/postoffice/src/server.js
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=90
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/postoffice/data /opt/postoffice/backups
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+CapabilityBoundingSet=CAP_NET_BIND_SERVICE
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

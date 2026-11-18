@@ -1,0 +1,36 @@
+.webmail-client .auth-story {
+  background: linear-gradient(145deg, #12333f, #214f52 65%, #3c6860);
+}
+.webmail-client .auth-story em {
+  color: #d6eab8;
+}
+.webmail-client .workspace-label {
+  letter-spacing: 0.16em;
+}
+.webmail-client .managed-mail {
+  transition: background-color 0.15s ease;
+}
+.webmail-client .managed-mail:hover {
+  background: var(--surface-hover, #f2f7f5);
+}
+.webmail-client .auth-form > .auth-note {
+  line-height: 1.9;
+}
+.webmail-client .compose-editor {
+  min-height: 280px;
+}
+.webmail-client .rich-editor {
+  min-height: 240px;
+}
+.webmail-client .server-status {
+  white-space: nowrap;
+}
+html[data-theme="dark"] .webmail-client .managed-mail:hover {
+  background: #1c2e36;
+}
+@media (min-width: 1200px) {
+  .webmail-client .content {
+    max-width: 1500px;
+    margin-inline: auto;
+  }
+}
