@@ -9,7 +9,6 @@ import subprocess
 import zipfile
 
 
-SERVER = "https://authorize.lxya.cc"
 FORBIDDEN = {".env", "data", "backups", "certs", ".runtime", "node_modules",
              "test-results", ".git", ".agents", ".codex", ".aws"}
 ROOT_FILES = {
@@ -18,7 +17,7 @@ ROOT_FILES = {
     "DEPLOYMENT.md", "PROTECTED-RELEASE.md", "release-manifest.json",
 }
 DEPLOY_FILES = {"nginx.conf", "postoffice.service", "node-version.txt", "node-sha256.txt",
-                "keydock-offline-public.pem", "rspamd/dkim_signing.conf",
+                "rspamd/dkim_signing.conf",
                 "rspamd/postoffice-rspamd.conf", "rspamd/worker-controller.inc",
                 "rspamd/worker-normal.inc", "rspamd/worker-proxy.inc"}
 
@@ -45,13 +44,8 @@ def allowed(name):
 def verify_release(source, node):
     manifest_file = source / "release-manifest.json"
     manifest = json.loads(manifest_file.read_text(encoding="utf-8"))
-    if manifest.get("schemaVersion") != 1 or manifest.get("kind") != "postoffice-protected-release":
+    if manifest.get("schemaVersion") != 2 or manifest.get("kind") != "postoffice-protected-release":
         raise ValueError("Unsupported or incomplete release manifest")
-    if manifest.get("qa") is not False or manifest.get("licenseServer") != SERVER:
-        raise ValueError("QA builds and non-production authorization servers cannot be packaged")
-    product = manifest.get("productId", "")
-    if not re.fullmatch(r"app_[A-Za-z0-9_-]{1,76}", product) or product == "app_postoffice_qa":
-        raise ValueError("A real KeyDock product ID is required")
     records = {}
     for record in manifest.get("files", []):
         name = record["path"]
@@ -78,8 +72,8 @@ def verify_release(source, node):
             raise ValueError("Windows launcher lost its UTF-8 BOM")
         if name.endswith(".pem") and b"PRIVATE KEY" in content:
             raise ValueError("Private keys may not enter the release")
-    required = {"LICENSE", "src/edition.js", "src/license.js", "public/license-tools.js", "public/webmail.html",
-                "deploy/keydock-offline-public.pem", "compose.yaml", "deploy/postoffice.service", "test/release-smoke.js"}
+    required = {"LICENSE", "src/edition.js", "public/webmail.html",
+                "compose.yaml", "deploy/postoffice.service", "test/release-smoke.js"}
     if not required.issubset(records):
         raise ValueError("Release is missing required mail, installer or license components")
     code = ("import {pathToFileURL} from 'node:url';"
@@ -90,7 +84,7 @@ def verify_release(source, node):
     result = subprocess.run([node, "--input-type=module", "--eval", code, str(source / "src/edition.js")],
                             check=True, capture_output=True, text=True, encoding="utf-8", env=env, timeout=30)
     edition = json.loads(result.stdout)
-    if edition != {"protected": True, "required": True, "product": product, "server": SERVER}:
+    if edition != {"protected": True, "required": False}:
         raise ValueError("Embedded edition binding differs from the formal manifest")
     pkg = json.loads((source / "package.json").read_text(encoding="utf-8"))
     if pkg.get("devDependencies"):
@@ -123,7 +117,7 @@ def package(source, output, node="node"):
     sha = hashlib.sha256(output.read_bytes()).hexdigest()
     Path(str(output) + ".sha256").write_text(f"{sha}  {output.name}\n", encoding="utf-8")
     return {"archive": str(output), "sha256": sha, "files": len(names),
-            "buildId": manifest["buildId"], "productId": manifest["productId"]}
+            "buildId": manifest["buildId"]}
 
 
 if __name__ == "__main__":

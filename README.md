@@ -74,7 +74,7 @@
 </details>
 
 <details>
-<summary><strong>账号与接口文档</strong>（8 张）</summary>
+<summary><strong>账号与接口文档</strong>（7 张）</summary>
 
 普通账号进入个人邮箱；管理员账号可以打开服务端后台。
 
@@ -87,7 +87,6 @@
 | **AI 接口文档**<br>浏览接口清单，复制服务器地址或 OpenAPI 文档。 | [![AI 接口文档操作界面](public/readme/desktop/desktop-api-overview.png)](public/readme/desktop/desktop-api-overview.png) |
 | **接口详情与调用示例**<br>查看请求参数并复制接口示例。 | [![接口详情与调用示例操作界面](public/readme/desktop/desktop-api-endpoint.png)](public/readme/desktop/desktop-api-endpoint.png) |
 | **管理员工作区**<br>用管理员身份进入远程管理后台。 | [![管理员工作区操作界面](public/readme/desktop/desktop-admin.png)](public/readme/desktop/desktop-admin.png) |
-| **授权恢复入口**<br>受保护的服务端授权失效时，全局管理员从此进入恢复页。 | [![授权恢复入口操作界面](public/readme/desktop/license-admin-recovery.png)](public/readme/desktop/license-admin-recovery.png) |
 
 </details>
 
@@ -158,7 +157,7 @@
 </details>
 
 <details>
-<summary><strong>后台：运行与维护</strong>（10 张）</summary>
+<summary><strong>后台：运行与维护</strong>（9 张）</summary>
 
 平台设置中的备份、清理和品牌资源各有独立操作界面。
 
@@ -173,7 +172,6 @@
 | **手动清理预览**<br>执行前先检查清理条件及影响范围。 | [![手动清理预览操作界面](public/readme/desktop/cleanup-preview.jpg)](public/readme/desktop/cleanup-preview.jpg) |
 | **功能管理**<br>调整功能的启用状态、显示状态与顺序。 | [![功能管理操作界面](public/readme/desktop/admin-features.jpg)](public/readme/desktop/admin-features.jpg) |
 | **程序信息**<br>查看程序信息及产品说明。 | [![程序信息操作界面](public/readme/desktop/admin-about.jpg)](public/readme/desktop/admin-about.jpg) |
-| **程序授权**<br>确认授权状态，查看在线激活和离线文件入口。 | [![程序授权操作界面](public/readme/desktop/admin-license.jpg)](public/readme/desktop/admin-license.jpg) |
 
 </details>
 
@@ -494,9 +492,9 @@ docker compose exec postoffice node scripts/backup.js
 
 用户列表支持服务端分页（30 / 50 / 100 条）、搜索防抖、域名筛选与当前页导出。邮箱选择器按需搜索，读请求在执行期间合并，批量密码计算限制并发，并为域名、邮箱、附件和会话查询补充索引。旧 API 未传分页参数时仍保留最多 5000 条的兼容结果；新客户端使用明确的 `page` / `limit`。
 
-升级会自动增加字段、索引和约束，现有域名默认为不限，不重置账号、邮件或 DKIM。升级前使用原备份入口或 `npm run backup` 保存数据库，并另外备份 `.env`、证书和 `DATA_DIR/license/`；替换程序后重启。新版本启动后不要直接回退旧代码继续写库，回退应同时恢复升级前的数据库备份。远程适配器的域名容量由目标邮局管理，本地数量限制不代替远程服务的配额。
+升级会自动增加字段、索引和约束，现有域名默认为不限，不重置账号、邮件或 DKIM。升级前使用原备份入口或 `npm run backup` 保存数据库，并另外备份 `.env`、证书和 DKIM 私钥；替换程序后重启。新版本启动后不要直接回退旧代码继续写库，回退应同时恢复升级前的数据库备份。远程适配器的域名容量由目标邮局管理，本地数量限制不代替远程服务的配额。
 
-管理员侧边栏包含下列基础功能及临时邮箱、邮件模板。权限管理整合到「用户列表 → 权限管理」；运行状态、平台设置、功能管理、程序信息和程序授权整合到「系统设置」的页签中，原页面链接仍可访问。多邮局管理暂时停用，已有连接配置保留。**后台权限同时在服务端检查**，普通用户不能通过直接请求接口访问管理功能。
+管理员侧边栏包含下列基础功能及临时邮箱、邮件模板。权限管理整合到「用户列表 → 权限管理」；运行状态、平台设置、功能管理、程序信息整合到「系统设置」的页签中，原页面链接仍可访问。多邮局管理暂时停用，已有连接配置保留。**后台权限同时在服务端检查**，普通用户不能通过直接请求接口访问管理功能。
 
 | 管理员功能  | 实现                                                                    |
 | ----------- | ----------------------------------------------------------------------- |
@@ -528,9 +526,7 @@ docker compose exec postoffice node scripts/backup.js
 
 ## 源码与发行版
 
-**源码保护与授权发行版：** 前后端 JavaScript 经过混淆及字符串编码，绑定原 [KeyDock 授权站](https://authorize.lxya.cc/) 中“青邮”的程序 ID `app_e7d64e0f0b6a`。安装后用全局管理员登录「程序授权」，输入该程序的授权码或导入签名离线文件；无需安装口令。授权不可用时保留入站收件与普通用户阅信，暂停发件、外发队列和管理业务，管理员仍可登录恢复。维护源码版不强制授权；发行与保护边界见 [PROTECTED-RELEASE.md](PROTECTED-RELEASE.md)。
-
-授权安装身份与已导入文件保存在 `DATA_DIR/license/`，备份及迁移需连同此目录保留，单独的 SQLite 在线备份不包含它。安装身份是随机生成的稳定安装 ID，不是不可复制的硬件指纹。保护版不能保证无法逆向，也不加密邮件数据库或替换现有 DKIM 私钥。
+源码版和混淆发行版均无需激活码、离线授权文件或联系外部授权站。管理员、邮箱用户和 API 调用仍需有效凭据及相应权限。旧版客户端可能拒绝免激活服务端，请同步更新或重新构建 Windows / Android 客户端。使用仍须遵守 [LICENSE](LICENSE)；混淆版构建见 [PROTECTED-RELEASE.md](PROTECTED-RELEASE.md)。
 
 ## 目录
 

@@ -9,4 +9,3 @@
 !scripts/
 !scripts/*.js
 !deploy/
-!deploy/keydock-offline-public.pem

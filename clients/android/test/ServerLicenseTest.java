@@ -10,7 +10,7 @@ public final class ServerLicenseTest {
     license.put("expiresAt",2001);expect(true,ServerLicense.valid(body,2000000));
     license.put("expiresAt","9999999999");expect(false,ServerLicense.valid(body,2000000));
     license.remove("expiresAt");expect(false,ServerLicense.valid(body,2000000));
-    license.put("expiresAt",JSONObject.NULL).put("required",false);expect(false,ServerLicense.valid(body,2000000));
+    license.put("expiresAt",JSONObject.NULL).put("required",false);expect(true,ServerLicense.valid(body,2000000));
     license.put("required",true).put("valid",false);expect(false,ServerLicense.valid(body,2000000));
     license.put("valid",true);body.remove("user");expect(false,ServerLicense.valid(body,2000000));
     for(String route:new String[]{"/send","/send?q=a","/drafts","/drafts/1/attachments","/manage/domains","/SEND","/Drafts/1","/MANAGE/domains"})expect(true,ServerLicense.requires(route));

@@ -10,7 +10,6 @@ import { createSmtpServers } from "./smtp.js";
 import { createMailProtocolAuth } from "./mail-protocol-auth.js";
 import { ensureDomainKeys } from "./domain-keys.js";
 import { loadMailSettings } from "./mail-settings.js";
-import { createLicense } from "./license.js";
 import { quotaError } from "./domain-quota.js";
 import { createAssetHandler } from "./static-assets.js";
 import { createServer as createHttpServer } from "node:http";
@@ -24,17 +23,14 @@ export async function start(overrides = {}) {
     new URL("../public", import.meta.url),
   );
   const store = openStore(config);
-  const license = createLicense(config);
   try {
     loadMailSettings(store.db, config);
     await ensureDomainKeys(store.db, config);
-    await license.init();
   } catch (error) {
-    await license.close();
     store.db.close();
     throw error;
   }
-  const mail = createMailService(store, config, license);
+  const mail = createMailService(store, config);
   const app = express();
   app.disable("x-powered-by");
   if (config.trustProxy) app.set("trust proxy", config.trustProxy);
@@ -62,7 +58,7 @@ export async function start(overrides = {}) {
     next();
   });
   app.use(express.json({ limit: Math.ceil(config.maxMessageBytes * 1.5) }));
-  const api = mountApi(app, store, mail, config, license);
+  const api = mountApi(app, store, mail, config);
   app.get("/healthz", (_req, res) => {
     store.db.prepare("SELECT 1").get();
     res.json({ status: "ok" });
@@ -88,7 +84,6 @@ export async function start(overrides = {}) {
     if (status >= 500) console.error(error);
     res.status(status).json({
       ...([
-        "LICENSE_REQUIRED",
         "DOMAIN_MAILBOX_LIMIT",
         "DOMAIN_MAILBOX_LIMIT_BELOW_USAGE",
       ].includes(error.code)
@@ -179,7 +174,6 @@ export async function start(overrides = {}) {
   } catch (error) {
     api.close();
     await closeListeners();
-    await license.close();
     await mail.stop();
     store.db.close();
     throw error;
@@ -218,12 +212,10 @@ export async function start(overrides = {}) {
     config,
     store,
     mail,
-    license,
     ports,
     async close() {
       api.close();
       await closeListeners();
-      await license.close();
       await mail.stop();
       store.db.close();
     },

@@ -86,7 +86,6 @@ const ib = (i, a, t, extra = "") =>
   `<button class="icon-btn" data-action="${a}" title="${esc(t)}" aria-label="${esc(t)}" ${extra}>${icon(i)}</button>`;
 const state = {
   user: null,
-  license: null,
   shellLicenseBlocked: null,
   csrf: "",
   route: "",
@@ -172,12 +171,6 @@ async function requestApi(path, { method, body }) {
   });
   const d = await r.json().catch(() => ({ error: "服务器响应异常" }));
   if (!r.ok) {
-    if (d.code === "LICENSE_REQUIRED" && isAdmin()) {
-      state.license = { ...state.license, required: true, valid: false };
-      const recovery = MailWorkspace.defaultRoute();
-      if (location.hash !== `#${routeHash(recovery)}`)
-        location.hash = routeHash(recovery);
-    }
     if (
       r.status === 401 &&
       state.user &&
@@ -259,9 +252,6 @@ function authView(setup) {
 }
 function shell() {
   state.shellClientWorkspace = clientWorkspace();
-  state.shellLicenseBlocked = Boolean(
-    isAdmin() && state.license?.required && !state.license.valid,
-  );
   const nav = MailWorkspace.navigation(adminNav, userNav);
   const navHtml = nav
     .map(([r, i, l], index) => {
@@ -352,15 +342,6 @@ async function render() {
     MailWorkspace.resetMailbox?.();
     shell();
   }
-  if (
-    isAdmin() &&
-    state.license?.required &&
-    !state.license.valid &&
-    r !== MailWorkspace.defaultRoute()
-  ) {
-    go(MailWorkspace.defaultRoute());
-    return;
-  }
   if (!MailWorkspace.canRoute(r)) {
     go(MailWorkspace.defaultRoute());
     return;
@@ -380,12 +361,7 @@ async function render() {
     go("inbox");
     return;
   }
-  if (
-    !$("#content") ||
-    state.shellLicenseBlocked !==
-      Boolean(isAdmin() && state.license?.required && !state.license.valid)
-  )
-    shell();
+  if (!$("#content")) shell();
   $$(".nav-item").forEach((e) => {
     const selected =
       MailWorkspace.navigationGroup(e.dataset.route) ===
@@ -424,11 +400,6 @@ async function render() {
     else if (pages[r]) html = await pages[r]();
     else html = empty("页面不存在", "请从侧边栏选择功能");
     if (v === state.version && state.user) {
-      if (
-        state.shellLicenseBlocked !==
-        Boolean(isAdmin() && state.license?.required && !state.license.valid)
-      )
-        shell();
       $("#content").innerHTML =
         MailWorkspace.sectionNavigation(r) + html + foot();
       PostOfficeTools.afterRender();
@@ -1388,7 +1359,6 @@ document.addEventListener("submit", async (e) => {
         },
       );
       state.user = r.user;
-      state.license = r.license;
       if (!mailboxClient && r.user.role !== "admin") {
         location.assign("/webmail/#inbox");
         return;
@@ -1491,7 +1461,6 @@ async function init() {
         return;
       }
       state.user = me.user;
-      state.license = me.license;
       await MailWorkspace.loadPreferences();
       shell();
       render();

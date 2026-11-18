@@ -58,7 +58,6 @@ export function createSmtpServers(
             session.user ? `u:${session.user}` : `ip:${session.remoteAddress}`,
           );
           if (submission || session.user) {
-            mail.assertSendingAllowed?.();
             const user = auth.authorize(credentials.get(session), "mail.send");
             if (!user || emailAddress(address.address) !== user.email)
               throw new AppError(

@@ -155,7 +155,6 @@ test("restricted navigation intersects explicit capabilities with domain operati
 });
 test("system pages and permission management share parent navigation while old routes still work", async () => {
   const { w, state, calls } = fixture();
-  state.license = { required: true, valid: true };
   const items = [
     ["users", "users", "用户列表"],
     ["connections", "server", "多邮局管理"],
@@ -170,7 +169,7 @@ test("system pages and permission management share parent navigation while old r
     ["system", "settings", "系统设置"],
   ]);
   assert.equal(w.navigationGroup("managers"), "users");
-  for (const id of ["system", "platform", "features", "about", "license"]) {
+  for (const id of ["system", "platform", "features", "about"]) {
     assert.equal(w.canRoute(id), true);
     assert.equal(w.navigationGroup(id), "system");
     assert.match(
@@ -199,9 +198,8 @@ test("system pages and permission management share parent navigation while old r
   assert.equal(w.canRoute("managers"), false);
   assert.equal(w.canRoute("platform"), false);
 });
-test("grouped tabs honor disabled and hidden features without hiding license recovery", async () => {
+test("grouped tabs honor disabled and hidden features without an activation tab", async () => {
   const { w, state } = fixture();
-  state.license = { required: true, valid: true };
   w.h.api = async (path) => {
     assert.equal(path, "/preferences");
     return {
@@ -225,19 +223,14 @@ test("grouped tabs honor disabled and hidden features without hiding license rec
   assert.equal(w.canRoute("managers"), false);
   assert.equal(w.sectionNavigation("users"), "");
   const html = w.sectionNavigation("platform");
-  assert.match(html, /href="#license"/);
+  assert.doesNotMatch(html, /href="#license"/);
   assert.doesNotMatch(html, /href="#(?:system|about|connections)"/);
   assert.equal(
     w.canRoute("about"),
     true,
     "hidden pages retain direct-link access",
   );
-  state.license.valid = false;
-  assert.equal(w.canRoute("license"), true);
-  assert.equal(w.sectionNavigation("license"), "");
-  assert.deepEqual(JSON.parse(JSON.stringify(w.navigation([], []))), [
-    ["license", "key", "程序授权"],
-  ]);
+  assert.equal(w.canRoute("license"), false);
 });
 test("paused multi-postoffice controls cannot be enabled when saving feature settings", async () => {
   const { w } = fixture();

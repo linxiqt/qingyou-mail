@@ -5,7 +5,6 @@ import os from "node:os";
 import path from "node:path";
 import { start } from "../src/server.js";
 import { effectiveCapabilities } from "../src/admin-permissions.js";
-import { AppError } from "../src/security.js";
 
 async function fixture(t) {
   const dir = await mkdtemp(path.join(os.tmpdir(), "postoffice-permissions-"));
@@ -534,7 +533,7 @@ test("revocation during message composition is rechecked before delivery is comm
   assert.equal(db.prepare("SELECT count(*) n FROM delivery_jobs").get().n, 0);
 });
 
-test("expired license blocks foreign mailbox batches while preserving personal mailbox actions", async (t) => {
+test("global administrator manages mailbox batches without product activation", async (t) => {
   const { admin, service, db } = await fixture(t);
   const owner = service.mail.localUser("root@control.example");
   await service.mail.send(owner, {
@@ -548,11 +547,6 @@ test("expired license blocks foreign mailbox batches while preserving personal m
   const foreign = db
     .prepare("SELECT id FROM messages WHERE owner_id<>? AND folder='inbox'")
     .get(owner.id).id;
-  service.license.assertAllowed = () => {
-    const error = new AppError("程序授权已失效", 402);
-    error.code = "LICENSE_REQUIRED";
-    throw error;
-  };
   assert.equal(
     (await admin("/messages/batch", { ids: [mine], action: "read" })).status,
     200,
@@ -560,20 +554,20 @@ test("expired license blocks foreign mailbox batches while preserving personal m
   assert.equal(
     (await admin("/messages/batch", { ids: [foreign], action: "trash" }))
       .status,
-    402,
+    200,
   );
   assert.equal(
     (await admin("/messages/batch", { ids: [mine, foreign], action: "unread" }))
       .status,
-    402,
+    200,
   );
   assert.equal(
     db.prepare("SELECT is_read FROM messages WHERE id=?").get(mine).is_read,
-    1,
+    0,
   );
   assert.equal(
     db.prepare("SELECT folder FROM messages WHERE id=?").get(foreign).folder,
-    "inbox",
+    "trash",
   );
 });
 

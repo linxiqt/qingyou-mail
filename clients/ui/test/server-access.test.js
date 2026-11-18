@@ -18,10 +18,11 @@ test("sending requires a verified connection and explicit valid server license",
     }),
   };
   assert.equal(licensed(a), true);
+  assert.equal(licensed({ ...a, license: normalizeLicense({ required: false, valid: true }) }), true);
   for (const license of [
     undefined,
     {},
-    { required: false, valid: true },
+    { required: false, valid: false },
     { required: "true", valid: true, expiresAt: null },
     { required: true, valid: true },
     { required: true, valid: false, expiresAt: null },

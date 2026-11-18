@@ -21,69 +21,9 @@ const protect = (source, name) =>
     protectionOptions(name, 121),
   ).getObfuscatedCode();
 
-test("formal bindings require a real product and QA cannot select a public license server", () => {
-  assert.throws(() => parseArguments(["--out", "release"]), /real KeyDock/);
-  assert.throws(
-    () => parseArguments(["--out", "release", "--product", "example"]),
-    /real KeyDock/,
-  );
-  assert.throws(
-    () =>
-      parseArguments(["--out", "release", "--product", "app_postoffice_qa"]),
-    /real KeyDock/,
-  );
-  const formal = parseArguments([
-    "--out",
-    "release",
-    "--product",
-    "app_e7d64e0f0b6a",
-  ]);
-  assert.equal(formal.server, "https://authorize.lxya.cc");
-  assert.equal(formal.qa, false);
-  assert.throws(
-    () =>
-      parseArguments([
-        "--out",
-        "release",
-        "--product",
-        "app_e7d64e0f0b6a",
-        "--qa-server",
-        "http://localhost",
-      ]),
-    /require --qa/,
-  );
-  for (const endpoint of [
-    "http://example.com",
-    "https://127.0.0.1.example.com",
-    "http://localhost/path",
-    "http://user:pass@localhost",
-    "http://127.0.0.2",
-  ]) {
-    assert.throws(
-      () =>
-        parseArguments([
-          "--out",
-          "release",
-          "--qa",
-          "--qa-server",
-          endpoint,
-          "--qa-public-key",
-          "key.pem",
-        ]),
-      /loopback/,
-    );
-  }
-  const qa = parseArguments([
-    "--out",
-    "release",
-    "--qa",
-    "--qa-server",
-    "http://127.0.0.1:45123",
-    "--qa-public-key",
-    "qa.pem",
-  ]);
-  assert.equal(qa.product, "app_postoffice_qa");
-  assert.equal(qa.server, "http://127.0.0.1:45123");
+test("builds need only an output directory and reject legacy product bindings", () => {
+  assert.deepEqual(parseArguments(["--out", "release"]), { out: "release" });
+  assert.throws(() => parseArguments(["--out", "release", "--product", "old"]));
 });
 
 test("runtime metadata excludes developer tooling but retains the npm production graph", async () => {
@@ -190,14 +130,13 @@ test("builder never reuses an existing output directory or writes inside source 
   );
   t.after(() => rm(directory, { recursive: true, force: true }));
   await assert.rejects(
-    buildProtected({ out: directory, product: "app_e7d64e0f0b6a" }),
+    buildProtected({ out: directory }),
     /EEXIST/,
   );
   const source = fileURLToPath(new URL("..", import.meta.url));
   await assert.rejects(
     buildProtected({
       out: path.join(source, "src", "protected-unsafe"),
-      product: "app_e7d64e0f0b6a",
     }),
     /source or runtime/,
   );

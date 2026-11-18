@@ -35,6 +35,7 @@ function accountView(account) {
 }
 function licensedServerResponse(response, now = Date.now()) {
   const license = response?.data?.license;
+  if (response?.status === 200 && response.data.user && license?.required === false) return license.valid === true;
   return response?.status === 200 && !!response.data.user && license?.required === true && license.valid === true &&
     (license.expiresAt === null || (Number.isSafeInteger(license.expiresAt) && license.expiresAt * 1000 > now));
 }

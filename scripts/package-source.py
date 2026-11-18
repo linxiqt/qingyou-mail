@@ -15,7 +15,7 @@ ROOT_FILES = {
 SCRIPT_FILES = {"backup.js", "check.js", "check-mail-listeners.js"}
 DEPLOY_FILES = {
     "nginx.conf", "postoffice.service", "node-version.txt", "node-sha256.txt",
-    "keydock-offline-public.pem", "rspamd/dkim_signing.conf",
+    "rspamd/dkim_signing.conf",
     "rspamd/postoffice-rspamd.conf", "rspamd/worker-controller.inc",
     "rspamd/worker-normal.inc", "rspamd/worker-proxy.inc",
 }
@@ -59,7 +59,7 @@ def allowed(name):
 DEPLOYMENT_GUIDE = "部署、启动和停止方法见 [README.md](README.md)。\n"
 PROTECTION_GUIDE = """# 发行版本说明
 
-此包为可维护的普通源码安装版，JavaScript 源码保持可读，不包含源码保护构建工具或实际授权码。需要固定产品授权与源码混淆时，请使用另行提供的源码保护授权发行包。
+此包为可维护的普通源码安装版，JavaScript 源码保持可读，不含混淆构建工具。源码版与混淆版均无需运行时激活，使用条款见 LICENSE。
 
 两种发行包均不包含运行数据库、环境配置、私钥、证书、账号密码或邮件。安装和升级说明见 [DEPLOYMENT.md](DEPLOYMENT.md)。
 """
@@ -70,7 +70,7 @@ import {createHash} from 'node:crypto';
 import {edition} from '../src/edition.js';
 test('source installer includes complete mail, permission and deployment components', async()=>{
   assert.equal(edition.protected,false);
-  for(const name of ['public/index.html','public/webmail.html','src/server.js','src/admin-permissions.js','src/domain-quota.js','src/code-rules-worker.js','deploy/keydock-offline-public.pem','compose.yaml','deploy/postoffice.service']) await access(new URL('../'+name,import.meta.url));
+  for(const name of ['public/index.html','public/webmail.html','src/server.js','src/admin-permissions.js','src/domain-quota.js','src/code-rules-worker.js','compose.yaml','deploy/postoffice.service']) await access(new URL('../'+name,import.meta.url));
   const manifest=JSON.parse(await readFile(new URL('../release-manifest.json',import.meta.url),'utf8'));
   assert.equal(manifest.kind,'postoffice-source-release');
   for(const file of manifest.files){
@@ -134,8 +134,6 @@ def collect(source):
     for key in ("LICENSE_KEY", "RELAY_PASSWORD", "RELAY_USER", "TLS_KEY_PATH", "DKIM_PRIVATE_KEY_PATH"):
         if re.search(rf"(?m)^[ \t]*{key}[ \t]*=[ \t]*[^\s#]", example):
             raise ValueError(f"Environment example contains a configured secret/path: {key}")
-    if b"PRIVATE KEY" in files["deploy/keydock-offline-public.pem"]:
-        raise ValueError("Only the public license verification key may be packaged")
     if not re.search(rb"protected\s*:\s*false", files["src/edition.js"]):
         raise ValueError("Use the protected packager for protected source trees")
     pkg = json.loads(files["package.json"])

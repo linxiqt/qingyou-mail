@@ -180,11 +180,6 @@ export function createProtocolMailbox({ db, transaction }, mail, auth, config) {
   function checkAppend(user, session, folder) {
     if (folder === "sent" || folder === "drafts") {
       actor(session, "mail.send");
-      try {
-        mail.assertSendingAllowed();
-      } catch {
-        throw denied();
-      }
     } else {
       actor(session, folder === "trash" ? "mail.delete" : "mail.update");
     }

@@ -56,7 +56,7 @@ import {
   saveMailHostname,
 } from "./mail-settings.js";
 
-export function mountApi(app, store, mail, config, license) {
+export function mountApi(app, store, mail, config) {
   const { db, transaction, audit } = store;
   const codeService = createCodeService(store);
   const responseCache = createResponseCache(store);
@@ -127,7 +127,7 @@ export function mountApi(app, store, mail, config, license) {
     return {
       user: { ...publicUser(user), ...userPayload(db, user) },
       csrfToken: csrf,
-      license: license?.status(),
+      license: { required: false, valid: true, mode: "none", expiresAt: null },
     };
   }
   function auth(req, _res, next) {
@@ -177,7 +177,6 @@ export function mountApi(app, store, mail, config, license) {
   }
   function admin(req, _res, next) {
     if (req.user.role !== "admin") throw new AppError("仅管理员可访问", 403);
-    license?.assertAllowed();
     if (
       !isGlobalAdmin(req.user) &&
       !req.originalUrl.split("?")[0].startsWith("/api/admin/manage/")
@@ -218,7 +217,6 @@ export function mountApi(app, store, mail, config, license) {
       );
       req.user = user;
       req.apiKey = key;
-      license?.assertAllowed();
       next();
     };
   }
@@ -430,7 +428,7 @@ export function mountApi(app, store, mail, config, license) {
     res.json({
       user: { ...publicUser(req.user), ...userPayload(db, req.user) },
       csrfToken: req.session.csrf_token,
-      license: license?.status(),
+      license: { required: false, valid: true, mode: "none", expiresAt: null },
     }),
   );
   router.get("/auth/mail-client", auth, (req, res) => {
@@ -464,46 +462,6 @@ export function mountApi(app, store, mail, config, license) {
     res.setHeader("Set-Cookie", sessionCookie("", req.authPortal));
     res.json({ ok: true });
   });
-  const licenseAdmin = (req, _res, next) => {
-    if (!isGlobalAdmin(req.user))
-      throw new AppError("仅全局管理员可管理授权", 403);
-    next();
-  };
-  router.get("/admin/license", auth, licenseAdmin, (_req, res) =>
-    res.json(license.adminStatus()),
-  );
-  router.post(
-    "/admin/license/activate",
-    auth,
-    licenseAdmin,
-    authLimit,
-    async (req, res) => {
-      const result = await license.activate(req.body.key);
-      audit(req.user.email, "license.activate");
-      res.json(result);
-    },
-  );
-  router.post(
-    "/admin/license/verify",
-    auth,
-    licenseAdmin,
-    authLimit,
-    async (req, res) => {
-      await license.ensureValid(true);
-      res.json(license.adminStatus());
-    },
-  );
-  router.post(
-    "/admin/license/offline",
-    auth,
-    licenseAdmin,
-    authLimit,
-    async (req, res) => {
-      const result = await license.importOffline(req.body.file);
-      audit(req.user.email, "license.offline.import");
-      res.json(result);
-    },
-  );
   router.post("/auth/password", auth, authLimit, async (req, res) => {
     const previousHash = req.user.password_hash;
     if (
@@ -697,7 +655,6 @@ export function mountApi(app, store, mail, config, license) {
   router.use("/manage", auth, (req, res, next) => {
     if (req.authPortal !== "client" || !isClientManager(req.user))
       throw new AppError("尚未分配客户端域名管理权限", 403);
-    license?.assertAllowed();
     if (
       !/^\/(?:accounts|account-options|domains|domain-options|forwards|messages|attachments|send|bulk-send)(?:[/?]|$)/i.test(
         req.url,
@@ -1101,7 +1058,6 @@ export function mountApi(app, store, mail, config, license) {
     mail,
     config,
     auth,
-    license,
   );
   const closeTempMail = mountTempMailRoutes(router, adminRouter, store, config);
   const closePlatform = mountPlatformRoutes(

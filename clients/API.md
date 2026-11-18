@@ -14,7 +14,7 @@
 { "email": "alice@example.com", "password": "用户输入的密码" }
 ```
 
-成功为 200，返回 `{ "user": { "id": 12, "email": "alice@example.com", "role": "user", "client_manager": false }, "csrfToken": "...", "license": {} }`，同时设置 HttpOnly 会话 Cookie。客户端 Cookie 为 `postoffice_client_session`，管理员为 `postoffice_session`。会话最长 7 天；每个账号必须使用独立 Cookie 容器。只根据服务端已认证的 `user.role` 判断管理员身份，输入名称 `admin` 本身不授予权限。
+成功为 200，返回 `{ "user": { "id": 12, "email": "alice@example.com", "role": "user", "client_manager": false }, "csrfToken": "...", "license": { "required": false, "valid": true, "mode": "none", "expiresAt": null } }`，同时设置 HttpOnly 会话 Cookie。客户端 Cookie 为 `postoffice_client_session`，管理员为 `postoffice_session`。会话最长 7 天；每个账号必须使用独立 Cookie 容器。只根据服务端已认证的 `user.role` 判断管理员身份，输入名称 `admin` 本身不授予权限。
 
 后续请求发送所属账号 Cookie；POST/PATCH/PUT/DELETE 还需 `X-CSRF-Token`。JSON 请求设 `Content-Type: application/json`。原生网络层不需要浏览器跨域权限；不要把 Cookie/CSRF/AI 密钥写入网页 localStorage。密码只用于登录，不保存在客户端。密码、权限或账号状态改变可使会话立即失效；收到 401 后提示重新登录。
 

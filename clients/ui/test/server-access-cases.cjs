@@ -151,10 +151,10 @@ module.exports = async function ({
   checks.push(
     "licenses are isolated per account/server; revoke blocks submit without losing draft; restoration unlocks without relogin",
   );
-  // No license response and a maintenance-only server are not commercial activation.
+  // No license response and a malformed server are not commercial activation.
   for (const value of [
     {},
-    { required: false, valid: true, mode: "development" },
+    { required: false, valid: false },
     { ...valid, expiresAt: 1 },
   ]) {
     await setLicense("work", value);
@@ -168,7 +168,7 @@ module.exports = async function ({
     );
   }
   checks.push(
-    "missing, development-only and expired server licenses do not unlock sending",
+    "missing, malformed and expired server licenses do not unlock sending",
   );
   await cdp("Emulation.setDeviceMetricsOverride", {
     width: 1440,

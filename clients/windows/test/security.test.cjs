@@ -3,7 +3,8 @@ const {serverUrl,apiPath,fingerprint,accountView,aiConfig,aiPayload,licensedServ
 test('native send/draft/management requests require authenticated licensed server response',()=>{
   const response={status:200,data:{user:{role:'user'},license:{required:true,valid:true,expiresAt:null}}};
   assert.equal(licensedServerResponse(response),true);
-  for(const license of [undefined,{}, {required:false,valid:true}, {required:true,valid:true}, {required:true,valid:false,expiresAt:null}, {required:true,valid:true,expiresAt:1}, {required:true,valid:true,expiresAt:'9999999999'}])assert.equal(licensedServerResponse({status:200,data:{user:{},license}}),false);
+  assert.equal(licensedServerResponse({status:200,data:{user:{role:"user"},license:{required:false,valid:true}}}),true);
+  for(const license of [undefined,{}, {required:false,valid:false}, {required:true,valid:true}, {required:true,valid:false,expiresAt:null}, {required:true,valid:true,expiresAt:1}, {required:true,valid:true,expiresAt:'9999999999'}])assert.equal(licensedServerResponse({status:200,data:{user:{},license}}),false);
   assert.equal(licensedServerResponse({...response,status:401}),false);
   assert.equal(licensedServerResponse({status:200,data:{license:response.data.license}}),false);
   for(const route of ['/send','/send?q=a','/drafts','/drafts/1/attachments','/manage/domains'])assert.equal(requiresLicense(route),true);

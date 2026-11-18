@@ -27,7 +27,7 @@ export function extractCode(text) {
     null
   );
 }
-export function createMailService(store, config, license) {
+export function createMailService(store, config) {
   const { db, transaction } = store;
   const outbound = createOutbound(config, config.outboundDependencies);
   function signingKey(sender) {
@@ -363,10 +363,8 @@ export function createMailService(store, config, license) {
   }
   async function send(user, input, authorize = null) {
     authorize?.();
-    license?.assertAllowed();
     if (!activeUser(user.id)) throw new AppError("账号或域名已停用", 403);
     const { raw, parsed, addresses } = await compose(user, input);
-    license?.assertAllowed();
     const id = transaction(() => {
       authorize?.();
       user = activeUser(user.id);
@@ -424,7 +422,6 @@ export function createMailService(store, config, license) {
     remote = "unknown",
     authorize = null,
   ) {
-    if (authenticatedUser) license?.assertAllowed();
     if (raw.length > config.maxMessageBytes)
       throw new AppError("邮件过大", 413, 552);
     // Blind recipients must never leak through a submitted raw message.
@@ -449,7 +446,6 @@ export function createMailService(store, config, license) {
       raw,
     ]);
     const parsed = await parse(raw);
-    if (authenticatedUser) license?.assertAllowed();
     if (
       authenticatedUser &&
       (parsed.from_count !== 1 ||
@@ -531,12 +527,11 @@ export function createMailService(store, config, license) {
     transaction(() => insert(user, "inbox", parsed, raw, "received"));
   }
   async function work() {
-    if (working || stopped || license?.status().valid === false) return;
+    if (working || stopped) return;
     working = true;
     try {
       db.prepare("DELETE FROM sessions WHERE expires_at<?").run(Date.now());
       for (let i = 0; i < 20 && !stopped; i++) {
-        if (license?.status().valid === false) break;
         const job = db
           .prepare(
             "SELECT * FROM delivery_jobs WHERE state='queued' AND next_attempt<=? ORDER BY id LIMIT 1",
@@ -568,12 +563,6 @@ export function createMailService(store, config, license) {
               new Error("发件域名缺少 Rspamd DKIM 密钥，稍后重试"),
               { responseCode: 451 },
             );
-          if (license?.status().valid === false) {
-            db.prepare(
-              "UPDATE delivery_jobs SET state='queued',attempts=? WHERE id=?",
-            ).run(job.attempts, job.id);
-            break;
-          }
           await outbound.sendMail({
             envelope: { from: job.sender, to: [job.recipient] },
             raw,
@@ -585,12 +574,6 @@ export function createMailService(store, config, license) {
             "UPDATE delivery_jobs SET state='delivered',last_error='',delivered_at=? WHERE id=?",
           ).run(new Date().toISOString(), job.id);
         } catch (error) {
-          if (license?.status().valid === false) {
-            db.prepare(
-              "UPDATE delivery_jobs SET state='queued',attempts=? WHERE id=?",
-            ).run(job.attempts, job.id);
-            break;
-          }
           const failed =
             job.attempts + 1 >= (config.deliveryMaxAttempts || 48) ||
             Date.now() - Date.parse(job.created_at) >=
@@ -617,7 +600,6 @@ export function createMailService(store, config, license) {
         updateStatus(job.message_id);
       }
       for (let i = 0; i < 20 && !stopped; i++) {
-        if (license?.status().valid === false) break;
         const job = db
           .prepare(
             "SELECT j.*,w.url,w.secret FROM webhook_jobs j JOIN webhooks w ON w.id=j.webhook_id WHERE j.state='queued' AND j.next_attempt<=? AND w.enabled=1 ORDER BY j.id LIMIT 1",
@@ -664,7 +646,6 @@ export function createMailService(store, config, license) {
     activeUser,
     usage,
     work,
-    assertSendingAllowed: () => license?.assertAllowed(),
     outboundMode: outbound.mode,
     async stop() {
       stopped = true;

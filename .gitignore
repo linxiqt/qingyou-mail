@@ -24,7 +24,6 @@ certs/
 !/deploy/rspamd/
 !/deploy/node-version.txt
 !/deploy/node-sha256.txt
-!/deploy/keydock-offline-public.pem
 __pycache__/
 *.sqlite*
 *.zip

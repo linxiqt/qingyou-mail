@@ -76,7 +76,6 @@ export function mountManagementRoutes(
   mail,
   config,
   auth,
-  license,
 ) {
   const { db, transaction, audit } = store;
   // Check again after awaits: a manager may have been disabled or revoked while
@@ -1326,7 +1325,6 @@ export function mountManagementRoutes(
             .get(id);
         if (!row) throw new AppError("邮件不存在", 404);
         if (row.owner_id !== req.user.id || req.managedMailBatch) {
-          license?.assertAllowed();
           freshActor(req, action === "trash" ? "mail.delete" : "mail.update");
           if (
             row.owner_id !== req.user.id &&

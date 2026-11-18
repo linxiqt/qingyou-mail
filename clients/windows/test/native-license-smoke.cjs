@@ -70,20 +70,20 @@ async function run() {
   assert.equal(businessCalls, 0, 'denied writes never reach business endpoints');
   await assert.rejects(invoke('openLicense', b.id), /管理员后台/);
 
-  license = { required: false, valid: true, expiresAt: null, mode: 'development' };
-  assert.equal((await invoke('request', { accountId: b.id, path: '/send', method: 'POST' })).status, 402);
+  license = { required: false, valid: true, expiresAt: null, mode: 'none' };
+  assert.equal((await invoke('request', { accountId: b.id, path: '/send', method: 'POST' })).status, 200);
   license = { required: true, valid: true, expiresAt: Math.floor(Date.now() / 1000) - 1, mode: 'online' };
   assert.equal((await invoke('request', { accountId: b.id, path: '/send', method: 'POST' })).status, 402);
   license.expiresAt = null;
   assert.equal((await invoke('request', { accountId: b.id, path: '/send', method: 'POST' })).status, 200);
-  assert.equal(businessCalls, 1);
+  assert.equal(businessCalls, 2);
   assert.deepEqual(await invoke('openAdmin', a.id), { opened: true });
   assert.equal(BrowserWindow.getAllWindows().find(win => win !== main).webContents.getURL(), origin + '/');
   authenticated = false;
   assert.equal((await invoke('request', { accountId: b.id, path: '/send', method: 'POST' })).status, 401);
-  assert.equal(businessCalls, 1);
+  assert.equal(businessCalls, 2);
   await assert.rejects(invoke('openAdmin', a.id), /登录已失效/);
-  const result = { passed: true, checks: ['native write gate before request', 'verified global license recovery only', 'admin window requires active license', 'maintenance/expired license rejected', 'license recovery without client activation', 'expired login rejected'], profile };
+  const result = { passed: true, checks: ['native write gate before request', 'verified global license recovery only', 'admin window requires active license', 'activation-free server accepted, expired legacy license rejected', 'license recovery without client activation', 'expired login rejected'], profile };
   fs.writeFileSync(path.join(artifacts, 'native-license-report.json'), JSON.stringify(result, null, 2));
   console.log(JSON.stringify(result));
 }

@@ -227,7 +227,7 @@ function updateAccessUI() {
     .forEach(
       (el) =>
         (el.textContent = allowed
-          ? a.license.mode === "offline"
+          ? a.license.required === false ? "无需激活" : a.license.mode === "offline"
             ? "离线授权有效"
             : "授权有效"
           : "未授权"),

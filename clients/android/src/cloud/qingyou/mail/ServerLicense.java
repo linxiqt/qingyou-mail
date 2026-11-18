@@ -10,6 +10,7 @@ final class ServerLicense {
   static boolean valid(JSONObject body, long nowMillis) {
     if (body.optJSONObject("user") == null) return false;
     JSONObject license = body.optJSONObject("license");
+    if (license != null && Boolean.FALSE.equals(license.opt("required"))) return Boolean.TRUE.equals(license.opt("valid"));
     if (license == null || !Boolean.TRUE.equals(license.opt("required")) || !Boolean.TRUE.equals(license.opt("valid")) || !license.has("expiresAt")) return false;
     if (license.isNull("expiresAt")) return true;
     Object expires = license.opt("expiresAt");

@@ -18,7 +18,7 @@ export function normalizeLicense(value) {
     required: value.required,
     valid: value.valid,
     expiresAt: expiresAt ?? null,
-    mode: ["online", "offline", "blocked", "development"].includes(value.mode)
+    mode: ["online", "offline", "blocked", "development", "none"].includes(value.mode)
       ? value.mode
       : "blocked",
     reason: typeof value.reason === "string" ? value.reason.slice(0, 300) : "",
@@ -28,6 +28,7 @@ export const connected = (account) =>
   account?.connection === "connected" && !account.authExpired;
 export function licensed(account, now = Date.now()) {
   const license = account?.license;
+  if (connected(account) && license?.required === false) return license.valid === true;
   return (
     connected(account) &&
     license?.required === true &&
@@ -48,7 +49,7 @@ export function accessMessage(account) {
   if (!account.license)
     return "服务端没有返回可验证的授权状态，请更新服务端授权版后重试。";
   if (!account.license.required)
-    return "服务端尚未启用授权，请安装绑定 KeyDock 的服务端授权版。";
+    return "服务端无需激活。";
   if (
     account.license.expiresAt !== null &&
     account.license.expiresAt * 1000 <= Date.now()

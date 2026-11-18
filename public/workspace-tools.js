@@ -172,7 +172,6 @@
       ["platform", "settings", "平台设置"],
       ["features", "settings", "功能管理"],
       ["about", "info", "程序信息"],
-      ["license", "key", "程序授权"],
     ],
   };
   const navigationGroup = (route) =>
@@ -189,7 +188,6 @@
     (sections[id] || []).filter(
       ([route]) =>
         canRoute(route) &&
-        (route !== "license" || h.state.license?.required) &&
         features.find((f) => f.id === route)?.show !== false,
     );
   function sectionNavigation(route) {
@@ -446,10 +444,7 @@
     const result = await h.api("/preferences");
     platform = result.platform;
     features = result.features;
-    if (h.state.license?.required && !h.state.license.valid) {
-      connections = [];
-      connectionId = 0;
-    } else await context();
+    await context();
     applyAppearance();
   }
   function navigation(adminNav, userNav) {
@@ -466,10 +461,6 @@
           : []),
         ...(isClientManager() ? [["access", "shield", "我的权限"]] : []),
       ];
-    if (h.state.license?.required && !h.state.license.valid)
-      return isGlobal()
-        ? [["license", "key", "程序授权"]]
-        : [["service-unavailable", "lock", "服务状态"]];
     const allowed = new Set([
       "users",
       "domains",
@@ -502,8 +493,6 @@
       )
       .sort((a, b) => a.order - b.order)
       .map((f) => [f.id, f.icon, f.name]);
-    if (isGlobal() && h.state.license?.required)
-      navigation.push(["license", "key", "程序授权"]);
     if (!isGlobal()) navigation.push(["access", "shield", "我的权限"]);
     const groups = new Set();
     return navigation.flatMap(([id, icon, label]) => {
@@ -524,8 +513,6 @@
     });
   }
   function defaultRoute() {
-    if (isAdmin() && h.state.license?.required && !h.state.license.valid)
-      return isGlobal() ? "license" : "service-unavailable";
     return isAdmin()
       ? isGlobal()
         ? "overview"
@@ -550,16 +537,7 @@
   function canRoute(route) {
     if (route === "connections") return false;
     if (h.clientWorkspace?.() && route === "drafts") return false;
-    if (route === "license") return isGlobal();
-    if (route === "service-unavailable")
-      return (
-        isAdmin() &&
-        !isGlobal() &&
-        h.state.license?.required &&
-        !h.state.license.valid
-      );
-    if (isAdmin() && h.state.license?.required && !h.state.license.valid)
-      return false;
+    if (route === "license" || route === "service-unavailable") return false;
     if (features.find((f) => f.id === route)?.enabled === false) return false;
     if (isClientManager() && !isAdmin() && route === "access") return true;
     if (!isAdmin())

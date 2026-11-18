@@ -26,7 +26,7 @@ GUIDE = """# 青邮完整软件（客户端 v1.3.1 / 服务端 v1.3.0）
 
 ## 包内内容
 
-- server/：授权源码保护版服务端，包含网页管理后台、网页邮箱、SMTP 收发、Rspamd 配置、权限管理、域名数量配额、转发和 Catch-all。
+- server/：源码保护版服务端，包含网页管理后台、网页邮箱、SMTP 收发、Rspamd 配置、权限管理、域名数量配额、转发和 Catch-all。
 - windows/：Windows x64 桌面客户端与管理员入口，包含完整运行环境，无需另外安装 Node.js。
 - android/Qingyou-Android-1.3.1-test.apk：Android 8 及以上手机客户端安装包。
 - docs/api/：AI 调用邮局的中文文档、31 个操作的 OpenAPI、8 个常用邮件操作的精简定义及 Node.js 示例。
@@ -35,7 +35,7 @@ GUIDE = """# 青邮完整软件（客户端 v1.3.1 / 服务端 v1.3.0）
 
 ## Linux 服务器部署
 
-将 `server/` 上传到专用目录，按 [服务端 README](server/README.md) 部署并启动。首次访问时创建管理员，再到「程序授权」激活。已有部署升级前应备份数据库、配置、证书和密钥。
+将 `server/` 上传到专用目录，按 [服务端 README](server/README.md) 部署并启动。首次访问时创建管理员。已有部署升级前应备份数据库、配置、证书和密钥。
 
 ## Windows 桌面端
 
@@ -57,7 +57,7 @@ GUIDE = """# 青邮完整软件（客户端 v1.3.1 / 服务端 v1.3.0）
 
 ## 校验与版本
 
-本包服务端为固定产品授权的正式源码保护构建；维护源码另存备份，不在本运行包内。客户端重新构建为 v1.3.1，保留远程服务器架构和多账号登录；服务端版本保持 v1.3.0。
+本包服务端为无需运行时激活的源码保护构建；维护源码另存备份，不在本运行包内。客户端重新构建为 v1.3.1，保留远程服务器架构和多账号登录；服务端版本保持 v1.3.0。
 
 服务端构建清单、文件哈希、发行冒烟和 JavaScript 语法检查通过；客户端界面交互、复制、账号隔离和原生剪贴板检查通过，APK v2/v3 签名验证通过。API 的 31 个操作在隔离环境覆盖 51 次请求响应；没有为此次打包向真实外部邮箱发信或调用真实 AI 服务。
 """
@@ -117,7 +117,7 @@ def build(server, windows, apk, output, node):
     inline = {'开始使用.md': GUIDE.replace('docs/client/', 'clients/').encode('utf-8'),
               '开始使用.txt': ('\ufeff' + GUIDE.replace('docs/client/', 'clients/')).encode('utf-8')}
     manifest = {'kind': 'qingyou-complete-runtime', 'version': '1.3.1', 'serverVersion': '1.3.0', 'packagedAt': '2026-11-03',
-                'serverBuild': server_manifest['buildId'], 'serverEdition': 'protected-licensed',
+                'serverBuild': server_manifest['buildId'], 'serverEdition': 'protected',
                 'sourceArchivesIncluded': False, 'windowsCodeSigned': False,
                 'androidSigning': 'development-test', 'androidDeviceTested': False, 'files': []}
     for name, file in inputs.items():
