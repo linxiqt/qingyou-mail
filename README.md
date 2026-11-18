@@ -2,7 +2,7 @@
 
 在自己的服务器上为多个域名开设邮箱。管理员在后台分配账号和权限，用户用中文网页邮箱或邮件客户端收发邮件。服务端使用 Node.js 24、Express 和 SQLite，不需要另装数据库。
 
-[功能介绍](#功能介绍)　·　[本地启动](#本地运行)　·　[Docker 部署](#linux-部署docker-compose)　·　[systemd 部署](#linux-部署systemd)　·　[备份与恢复](#备份与恢复)
+[功能介绍](#功能介绍)　·　[电脑版功能图鉴](#windows-电脑版功能图鉴)　·　[本地启动](#本地运行)　·　[Docker 部署](#linux-部署docker-compose)　·　[systemd 部署](#linux-部署systemd)　·　[备份与恢复](#备份与恢复)
 
 ## 功能介绍
 
@@ -29,6 +29,151 @@
 | 让同事管理自己的域名 | 管理后台 → 用户列表 → 权限管理 | 指定可管理的域名，再单独授权创建邮箱、重置密码或设置转发。相同邮箱后缀不代表拥有管理权。 |
 | 接住寄错地址的邮件 | 管理后台 → 邮件转发 → Catch-all | 把寄给本域未创建地址的信转到指定邮箱；已有邮箱仍按自己的规则收信。 |
 | 让业务系统收发邮件 | [API](#api) 与 [Webhook](#webhook) | 用限定权限的 API Key 发信或查询邮件；用带签名的 Webhook 将邮件事件推送到业务系统。 |
+
+### Windows 电脑版功能图鉴
+
+按任务展开，点击截图可查看原图。前 3 组是 Windows 客户端；后 4 组是管理员从客户端打开的服务端后台。图片来自隔离的演示环境，不含生产邮箱；已停用的「多邮局管理」不列为可用功能。
+
+<details>
+<summary><strong>读信与整理</strong>（11 张）</summary>
+
+读信时可以在右侧处理邮件，不必离开列表。
+
+| 功能与操作 | 截图（点击放大） |
+| :--- | :--- |
+| **三栏收件箱**<br>从文件夹到列表，再到正文与附件。 | [![三栏收件箱操作界面](public/readme/windows-inbox.png)](public/readme/windows-inbox.png) |
+| **搜索邮件**<br>按发件人、主题或正文筛选。 | [![搜索邮件操作界面](public/readme/desktop/search.jpg)](public/readme/desktop/search.jpg) |
+| **未读邮件**<br>只看还没读过的来信。 | [![未读邮件操作界面](public/readme/desktop/unread.jpg)](public/readme/desktop/unread.jpg) |
+| **已标星**<br>集中查看需要跟进的邮件。 | [![已标星操作界面](public/readme/desktop/starred.jpg)](public/readme/desktop/starred.jpg) |
+| **阅读工具栏**<br>从左到右：回复、切换星标、归档、删除和标记未读。 | [![阅读工具栏操作界面](public/readme/desktop/reader-tools.jpg)](public/readme/desktop/reader-tools.jpg) |
+| **查看邮件排版**<br>在纯文本和隔离的 HTML 正文之间切换。 | [![查看邮件排版操作界面](public/readme/desktop/html.jpg)](public/readme/desktop/html.jpg) |
+| **保存附件**<br>查看文件名、大小及保存反馈。 | [![保存附件操作界面](public/readme/desktop/attachment.jpg)](public/readme/desktop/attachment.jpg) |
+| **已发送**<br>查看已发送邮件及其内容。 | [![已发送操作界面](public/readme/desktop/sent.jpg)](public/readme/desktop/sent.jpg) |
+| **归档**<br>查阅从收件箱归档的邮件。 | [![归档操作界面](public/readme/desktop/archive.jpg)](public/readme/desktop/archive.jpg) |
+| **已删除**<br>检查删除的邮件，选择恢复或永久删除。 | [![已删除操作界面](public/readme/desktop/trash.jpg)](public/readme/desktop/trash.jpg) |
+| **垃圾邮件**<br>检查被归入垃圾邮件文件夹的邮件。 | [![垃圾邮件操作界面](public/readme/desktop/spam.jpg)](public/readme/desktop/spam.jpg) |
+
+</details>
+
+<details>
+<summary><strong>写信与草稿</strong>（6 张）</summary>
+
+保存草稿和发送是两个不同的操作。
+
+| 功能与操作 | 截图（点击放大） |
+| :--- | :--- |
+| **写邮件、添加附件与保存草稿**<br>填写收件人、抄送、密送、主题和正文，检查附件及草稿状态。 | [![写邮件、添加附件与保存草稿操作界面](public/readme/desktop/compose.jpg)](public/readme/desktop/compose.jpg) |
+| **发送邮件**<br>查看提交后的发送反馈。 | [![发送邮件操作界面](public/readme/desktop/send.jpg)](public/readme/desktop/send.jpg) |
+| **草稿箱**<br>找到尚未发出的邮件。 | [![草稿箱操作界面](public/readme/desktop/drafts.jpg)](public/readme/desktop/drafts.jpg) |
+| **继续编辑**<br>打开已有草稿，保留原来的主题和正文。 | [![继续编辑操作界面](public/readme/desktop/edit-draft.jpg)](public/readme/desktop/edit-draft.jpg) |
+| **回复**<br>沿用原邮件的联系人和主题。 | [![回复操作界面](public/readme/desktop/reply.jpg)](public/readme/desktop/reply.jpg) |
+| **转发**<br>填写新的收件人；需要转发的附件需重新添加。 | [![转发操作界面](public/readme/desktop/forward.jpg)](public/readme/desktop/forward.jpg) |
+
+</details>
+
+<details>
+<summary><strong>账号与接口文档</strong>（8 张）</summary>
+
+普通账号进入个人邮箱；管理员账号可以打开服务端后台。
+
+| 功能与操作 | 截图（点击放大） |
+| :--- | :--- |
+| **账号管理与退出**<br>查看服务器、登录身份和已添加账号；退出不会删除服务器邮件。 | [![账号管理与退出操作界面](public/readme/desktop/accounts.jpg)](public/readme/desktop/accounts.jpg) |
+| **添加账号与证书检查入口**<br>输入服务器及用户名，登录前可查看服务器证书。 | [![添加账号与证书检查入口操作界面](public/readme/desktop/login.jpg)](public/readme/desktop/login.jpg) |
+| **切换邮箱**<br>切换后，列表显示所选账号自己的邮件。 | [![切换邮箱操作界面](public/readme/desktop/switch.jpg)](public/readme/desktop/switch.jpg) |
+| **连接失败与重试**<br>服务器无法访问时，检查连接后重新尝试。 | [![连接失败与重试操作界面](public/readme/desktop/reconnect.jpg)](public/readme/desktop/reconnect.jpg) |
+| **AI 接口文档**<br>浏览接口清单，复制服务器地址或 OpenAPI 文档。 | [![AI 接口文档操作界面](public/readme/desktop/desktop-api-overview.png)](public/readme/desktop/desktop-api-overview.png) |
+| **接口详情与调用示例**<br>查看请求参数并复制接口示例。 | [![接口详情与调用示例操作界面](public/readme/desktop/desktop-api-endpoint.png)](public/readme/desktop/desktop-api-endpoint.png) |
+| **管理员工作区**<br>用管理员身份进入远程管理后台。 | [![管理员工作区操作界面](public/readme/desktop/desktop-admin.png)](public/readme/desktop/desktop-admin.png) |
+| **授权恢复入口**<br>受保护的服务端授权失效时，全局管理员从此进入恢复页。 | [![授权恢复入口操作界面](public/readme/desktop/license-admin-recovery.png)](public/readme/desktop/license-admin-recovery.png) |
+
+</details>
+
+<details>
+<summary><strong>后台：收发与账号</strong>（15 张）</summary>
+
+以下是 Windows 管理员工作区打开的服务端页面，不是普通邮箱的操作权限。
+
+| 功能与操作 | 截图（点击放大） |
+| :--- | :--- |
+| **总览**<br>查看邮箱数量、收发统计和服务状态。 | [![总览操作界面](public/readme/desktop/admin-overview.jpg)](public/readme/desktop/admin-overview.jpg) |
+| **后台发邮件**<br>使用编辑器写信、存草稿或保存为模板。 | [![后台发邮件操作界面](public/readme/desktop/admin-compose.jpg)](public/readme/desktop/admin-compose.jpg) |
+| **后台收件箱**<br>查找、筛选和批量整理有权访问的来信。 | [![后台收件箱操作界面](public/readme/desktop/admin-inbox.jpg)](public/readme/desktop/admin-inbox.jpg) |
+| **后台邮件详情**<br>打开列表中的邮件，核对正文与收发信息。 | [![后台邮件详情操作界面](public/readme/desktop/admin-mail-detail.jpg)](public/readme/desktop/admin-mail-detail.jpg) |
+| **后台发件箱**<br>检查已发送邮件。 | [![后台发件箱操作界面](public/readme/desktop/admin-sent.jpg)](public/readme/desktop/admin-sent.jpg) |
+| **用户列表**<br>筛选账号、查看所属域名、导出列表或进入邮箱管理。 | [![用户列表操作界面](public/readme/desktop/admin-users.jpg)](public/readme/desktop/admin-users.jpg) |
+| **新建邮箱**<br>指定地址、显示名称和初始配置。 | [![新建邮箱操作界面](public/readme/desktop/account-create.jpg)](public/readme/desktop/account-create.jpg) |
+| **编辑邮箱**<br>调整账号资料和邮箱配额。 | [![编辑邮箱操作界面](public/readme/desktop/account-edit.jpg)](public/readme/desktop/account-edit.jpg) |
+| **客户端域名用户授权**<br>按账号限定可操作的功能和域名范围。 | [![客户端域名用户授权操作界面](public/readme/desktop/account-permissions.jpg)](public/readme/desktop/account-permissions.jpg) |
+| **权限管理**<br>查看能够进入后台的管理账号。 | [![权限管理操作界面](public/readme/desktop/admin-managers.jpg)](public/readme/desktop/admin-managers.jpg) |
+| **添加管理账号**<br>为新管理员选择角色、功能权限及可管理域名。 | [![添加管理账号操作界面](public/readme/desktop/manager-create.jpg)](public/readme/desktop/manager-create.jpg) |
+| **批量注册**<br>按规则生成一组邮箱账号。 | [![批量注册操作界面](public/readme/desktop/admin-batch-register.jpg)](public/readme/desktop/admin-batch-register.jpg) |
+| **按列表导入**<br>按行录入账号，而不是使用随机生成规则。 | [![按列表导入操作界面](public/readme/desktop/batch-import.jpg)](public/readme/desktop/batch-import.jpg) |
+| **批量群发**<br>选择收件人并编写要分别投递的邮件。 | [![批量群发操作界面](public/readme/desktop/admin-bulk-send.jpg)](public/readme/desktop/admin-bulk-send.jpg) |
+| **批量改密**<br>先核对目标账号，再统一更新密码。 | [![批量改密操作界面](public/readme/desktop/admin-batch-password.jpg)](public/readme/desktop/admin-batch-password.jpg) |
+
+</details>
+
+<details>
+<summary><strong>后台：域名与转发</strong>（9 张）</summary>
+
+邮箱数量上限是域名级限制，与单个邮箱的存储配额不同。
+
+| 功能与操作 | 截图（点击放大） |
+| :--- | :--- |
+| **域名列表**<br>对照启用状态、邮箱数量与捕获方式。 | [![域名列表操作界面](public/readme/desktop/admin-domains.jpg)](public/readme/desktop/admin-domains.jpg) |
+| **添加域名**<br>把新的收发域名加入邮局。 | [![添加域名操作界面](public/readme/desktop/domain-create.jpg)](public/readme/desktop/domain-create.jpg) |
+| **DNS 解析指引**<br>查看该演示域名对应的邮件解析记录。 | [![DNS 解析指引操作界面](public/readme/desktop/domain-dns.jpg)](public/readme/desktop/domain-dns.jpg) |
+| **域名容量**<br>限制单个域名下可创建的邮箱数量。 | [![域名容量操作界面](public/readme/desktop/domain-limit.jpg)](public/readme/desktop/domain-limit.jpg) |
+| **本地捕获邮箱**<br>为未创建的地址选择本域的接收邮箱。 | [![本地捕获邮箱操作界面](public/readme/desktop/domain-catchall.jpg)](public/readme/desktop/domain-catchall.jpg) |
+| **邮件转发规则列表**<br>查看和管理已有转发规则。 | [![邮件转发规则列表操作界面](public/readme/desktop/admin-forwards.jpg)](public/readme/desktop/admin-forwards.jpg) |
+| **邮箱转发**<br>为已有邮箱设置目标地址与保留副本选项。 | [![邮箱转发操作界面](public/readme/desktop/forward-create.jpg)](public/readme/desktop/forward-create.jpg) |
+| **Catch-all 转发**<br>按域名接收未创建地址的邮件并转发。 | [![Catch-all 转发操作界面](public/readme/desktop/forward-catchall.jpg)](public/readme/desktop/forward-catchall.jpg) |
+| **批量创建转发**<br>一次配置多个来源邮箱。 | [![批量创建转发操作界面](public/readme/desktop/forward-batch.jpg)](public/readme/desktop/forward-batch.jpg) |
+
+</details>
+
+<details>
+<summary><strong>后台：接码、临时邮箱与 API</strong>（12 张）</summary>
+
+接码链接、临时邮箱和 API 密钥是三个独立入口。
+
+| 功能与操作 | 截图（点击放大） |
+| :--- | :--- |
+| **接码链接管理**<br>查看链接关联的邮箱、有效期及状态。 | [![接码链接管理操作界面](public/readme/desktop/admin-codes.jpg)](public/readme/desktop/admin-codes.jpg) |
+| **创建接码链接**<br>限定允许访问的邮箱与内容。 | [![创建接码链接操作界面](public/readme/desktop/code-create.jpg)](public/readme/desktop/code-create.jpg) |
+| **接码设置**<br>调整接码的全局选项与默认行为。 | [![接码设置操作界面](public/readme/desktop/codes-settings.jpg)](public/readme/desktop/codes-settings.jpg) |
+| **验证码规则**<br>核对匹配顺序、表达式和启用状态。 | [![验证码规则操作界面](public/readme/desktop/codes-rules.jpg)](public/readme/desktop/codes-rules.jpg) |
+| **创建验证码规则**<br>设置筛选条件与提取表达式。 | [![创建验证码规则操作界面](public/readme/desktop/rule-create.jpg)](public/readme/desktop/rule-create.jpg) |
+| **批量规则测试**<br>先用样本文本验证规则效果。 | [![批量规则测试操作界面](public/readme/desktop/codes-test.jpg)](public/readme/desktop/codes-test.jpg) |
+| **临时邮箱页面**<br>管理临时邮箱页面及使用限制。 | [![临时邮箱页面操作界面](public/readme/desktop/admin-temp-mail.jpg)](public/readme/desktop/admin-temp-mail.jpg) |
+| **新建临时邮箱页面**<br>配置页面名称、可用域名与有效期等选项。 | [![新建临时邮箱页面操作界面](public/readme/desktop/temp-page-create.jpg)](public/readme/desktop/temp-page-create.jpg) |
+| **邮件模板**<br>查看可重复使用的邮件内容。 | [![邮件模板操作界面](public/readme/desktop/admin-templates.jpg)](public/readme/desktop/admin-templates.jpg) |
+| **新建模板**<br>编辑模板内容供后续写信使用。 | [![新建模板操作界面](public/readme/desktop/template-create.jpg)](public/readme/desktop/template-create.jpg) |
+| **邮件推送 API**<br>查看密钥列表和调用示例。 | [![邮件推送 API操作界面](public/readme/desktop/admin-api.jpg)](public/readme/desktop/admin-api.jpg) |
+| **创建密钥与授权策略**<br>选择权限、额度和允许范围；截图未生成密钥。 | [![创建密钥与授权策略操作界面](public/readme/desktop/key-create.jpg)](public/readme/desktop/key-create.jpg) |
+
+</details>
+
+<details>
+<summary><strong>后台：运行与维护</strong>（10 张）</summary>
+
+平台设置中的备份、清理和品牌资源各有独立操作界面。
+
+| 功能与操作 | 截图（点击放大） |
+| :--- | :--- |
+| **运行状态**<br>检查主机、协议端口、TLS 和投递模式。 | [![运行状态操作界面](public/readme/desktop/admin-system.jpg)](public/readme/desktop/admin-system.jpg) |
+| **投递队列与操作日志**<br>对照外发任务和后台操作记录。 | [![投递队列与操作日志操作界面](public/readme/desktop/queue-audit.jpg)](public/readme/desktop/queue-audit.jpg) |
+| **平台设置**<br>设置系统名称、默认主题和布局。 | [![平台设置操作界面](public/readme/desktop/admin-platform.jpg)](public/readme/desktop/admin-platform.jpg) |
+| **品牌图片**<br>管理可用于界面的品牌资源。 | [![品牌图片操作界面](public/readme/desktop/brand-assets.jpg)](public/readme/desktop/brand-assets.jpg) |
+| **备份管理**<br>查看在线备份的创建与下载入口。 | [![备份管理操作界面](public/readme/desktop/platform-backups.jpg)](public/readme/desktop/platform-backups.jpg) |
+| **邮件保留策略**<br>配置保留期限、清理范围和垃圾箱策略。 | [![邮件保留策略操作界面](public/readme/desktop/retention.jpg)](public/readme/desktop/retention.jpg) |
+| **手动清理预览**<br>执行前先检查清理条件及影响范围。 | [![手动清理预览操作界面](public/readme/desktop/cleanup-preview.jpg)](public/readme/desktop/cleanup-preview.jpg) |
+| **功能管理**<br>调整功能的启用状态、显示状态与顺序。 | [![功能管理操作界面](public/readme/desktop/admin-features.jpg)](public/readme/desktop/admin-features.jpg) |
+| **程序信息**<br>查看程序信息及产品说明。 | [![程序信息操作界面](public/readme/desktop/admin-about.jpg)](public/readme/desktop/admin-about.jpg) |
+| **程序授权**<br>确认授权状态，查看在线激活和离线文件入口。 | [![程序授权操作界面](public/readme/desktop/admin-license.jpg)](public/readme/desktop/admin-license.jpg) |
+
+</details>
 
 ### 一封邮件如何送达？
 
